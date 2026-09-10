@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muhammed Emin Şeker | Bilgisayar mühendisliği, siber güvenlik</title>
+<meta name="description" content="RTEÜ 3. sınıf bilgisayar mühendisliği öğrencisi, Siber Vatan 2026 yarı finalisti. Python ile yazdığım güvenlik ve yapay zekâ araçları.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%238A1E3F'/%3E%3Ctext x='16' y='23' font-family='monospace' font-weight='700' font-size='20' text-anchor='middle' fill='%23E4E8E5'%3E%C5%9E%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300..800&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fog: #E4E8E5;      /* Karadeniz sisi */
+    --lift: #EEF1EE;
+    --ink: #10262E;      /* gece denizi */
+    --sea: #3E5A62;
+    --bordo: #8A1E3F;    /* 61 */
+    --rule: #B7C1BE;
+    --mono: "Martian Mono", ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
+    --sans: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --wrap: 74rem;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--fog);
+    color: var(--ink);
+    font: 400 1.0625rem/1.6 var(--sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .22em; }
+  a:hover { color: var(--bordo); }
+  :focus-visible { outline: 2px solid var(--bordo); outline-offset: 3px; border-radius: 2px; }
+  ul, ol { margin: 0; padding: 0; }
+  h2, h3 { margin: 0; }
+
+  .wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: clamp(1.25rem, 5vw, 3rem); }
+
+  /* Üst bar */
+  .top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 1.4rem; }
+  .handle { font-weight: 600; text-decoration: none; }
+  .top nav { display: flex; gap: clamp(1rem, 3vw, 2rem); font-size: .95rem; }
+  .top nav a { text-decoration: none; }
+  .top nav a:hover { text-decoration: underline; }
+  @media (max-width: 34rem) { .handle { display: none; } .top nav { width: 100%; justify-content: space-between; } }
+
+  /* Hero: şifreli isim */
+  .hero { padding-block: clamp(2rem, 6vw, 4.5rem) clamp(4rem, 9vw, 7rem); }
+  .name {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: clamp(3rem, 14.5vw, 9.5rem);
+    line-height: .95;
+    letter-spacing: -.045em;
+    margin: 0;
+    color: var(--ink);
+    transition: color .35s ease;
+  }
+  .name .line { display: block; white-space: nowrap; }
+  .hero.is-cipher .name { color: var(--bordo); }
+
+  .hero-body { display: grid; gap: 2.75rem; margin-top: clamp(2.25rem, 5vw, 3.5rem); }
+  @media (min-width: 60rem) {
+    .hero-body { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 5rem; align-items: start; }
+  }
+  .lede { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.45; margin: 0; max-width: 34ch; font-weight: 450; }
+  .links { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-top: 1.5rem; font-weight: 600; }
+
+  .cipher label { display: flex; justify-content: space-between; align-items: baseline; font-weight: 600; font-size: .95rem; }
+  .cipher output { font-family: var(--mono); font-weight: 700; font-size: 1.35rem; color: var(--bordo); min-width: 2ch; text-align: right; }
+  .cipher input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 2rem; margin: .5rem 0 .75rem; background: transparent; cursor: pointer; }
+  .cipher input[type="range"]::-webkit-slider-runnable-track { height: 2px; background: var(--ink); }
+  .cipher input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 1.6rem; margin-top: calc(-.8rem + 1px); background: var(--bordo); border-radius: 2px; }
+  .cipher input[type="range"]::-moz-range-track { height: 2px; background: var(--ink); }
+  .cipher input[type="range"]::-moz-range-thumb { width: 14px; height: 1.6rem; background: var(--bordo); border: 0; border-radius: 2px; }
+
+  .abc { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .9rem; align-items: baseline; overflow-x: auto; }
+  .abc span { font-size: .8rem; color: var(--sea); }
+  .abc code { font-family: var(--mono); font-size: clamp(.6rem, 2.3vw, .82rem); letter-spacing: .22em; white-space: nowrap; }
+  .abc code.enc { color: var(--bordo); font-weight: 700; }
+  .cipher-note { font-size: .9rem; color: var(--sea); margin: 1rem 0 0; max-width: 46ch; }
+
+  /* Başarı bandı */
+  .band { background: var(--ink); color: var(--fog); }
+  .band .wrap { padding-block: clamp(3.5rem, 9vw, 6.5rem); }
+  .award { font-weight: 800; font-size: clamp(2rem, 5.6vw, 4.4rem); line-height: 1.04; letter-spacing: -.025em; max-width: 17ch; }
+  .band p { color: #B6C6C8; max-width: 54ch; margin: 1.4rem 0 0; font-size: 1.1rem; }
+
+  /* Bölüm iskeleti */
+  .sec { display: grid; gap: 2rem; padding-block: clamp(4rem, 10vw, 7.5rem); }
+  .sec + .sec { border-top: 1px solid var(--rule); }
+  .sec > h2 { font-size: clamp(1.9rem, 3.2vw, 2.2rem); font-weight: 800; letter-spacing: -.025em; line-height: 1.05; }
+  @media (min-width: 60rem) {
+    .sec { grid-template-columns: 15rem minmax(0, 1fr); gap: 3rem; }
+    .sec > h2 { position: sticky; top: 2rem; align-self: start; }
+  }
+  .sec-intro { margin: 0 0 1rem; max-width: 60ch; color: var(--sea); font-size: 1.1rem; }
+
+  /* Projeler */
+  .proj { padding-block: 2.5rem 3rem; border-top: 1px solid var(--rule); }
+  .proj:first-of-type { border-top: 2px solid var(--ink); }
+  .proj h3 { font-family: var(--mono); font-weight: 650; font-size: clamp(1.45rem, 3vw, 2.1rem); letter-spacing: -.03em; line-height: 1.15; }
+  .proj h3 a { text-decoration: none; }
+  .proj h3 a:hover { text-decoration: underline; }
+  .meta { color: var(--sea); font-size: .92rem; margin: .45rem 0 0; }
+  .summary { max-width: 62ch; margin: 1.1rem 0 0; font-size: 1.1rem; }
+  .stack { color: var(--sea); font-size: .92rem; margin: 1.75rem 0 0; max-width: 70ch; }
+
+  .pipeline { list-style: none; display: grid; gap: 1.5rem; margin-top: 2.25rem; grid-template-columns: 1fr; counter-reset: step; }
+  @media (min-width: 34rem) { .pipeline { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 76rem) { .pipeline { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .pipeline li { counter-increment: step; border-top: 2px solid var(--ink); padding-top: .9rem; }
+  .pipeline li::before { content: counter(step); display: block; font-family: var(--mono); font-weight: 700; font-size: 1.6rem; line-height: 1; color: var(--bordo); margin-bottom: .7rem; }
+  .pipeline strong { display: block; font-size: 1.05rem; }
+  .pipeline span { display: block; color: var(--sea); font-size: .95rem; margin-top: .25rem; }
+
+  .url { margin: 2rem 0 0; padding: clamp(1.25rem, 3vw, 2rem); background: var(--lift); border-radius: 6px; }
+  .url > code { display: block; font-family: var(--mono); font-size: clamp(.78rem, 2.1vw, 1.15rem); line-height: 1.7; color: var(--sea); overflow-wrap: anywhere; }
+  .url mark { background: none; color: var(--ink); font-weight: 700; border-bottom: 2px solid var(--bordo); }
+  .url figcaption { font-size: .92rem; color: var(--sea); margin-top: 1rem; }
+  .url dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: .55rem 1.25rem; margin: 1.1rem 0 0; font-size: .97rem; }
+  .url dt { font-family: var(--mono); font-size: .82rem; font-weight: 600; color: var(--bordo); padding-top: .15rem; }
+  .url dd { margin: 0; }
+
+  .pull { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 650; line-height: 1.3; letter-spacing: -.01em; max-width: 36ch; margin: 2rem 0 0; padding-left: 1.1rem; border-left: 3px solid var(--bordo); }
+
+  .kit { margin-top: 3.5rem; }
+  .kit > h3 { font-size: 1.4rem; font-weight: 800; letter-spacing: -.015em; }
+  .kit > p { margin: .4rem 0 0; color: var(--sea); max-width: 60ch; }
+  .tools { list-style: none; margin-top: 1.5rem; border-bottom: 1px solid var(--rule); }
+  .tools li { display: grid; gap: .35rem; padding-block: 1.3rem; border-top: 1px solid var(--rule); }
+  @media (min-width: 48rem) { .tools li { grid-template-columns: 14rem minmax(0, 1fr); gap: 2rem; } }
+  .tool-name { font-family: var(--mono); font-weight: 600; font-size: 1rem; }
+  .tool-name a { text-decoration: none; }
+  .tool-name a:hover { text-decoration: underline; }
+  .tool-name small { display: block; font-family: var(--sans); font-weight: 400; font-size: .85rem; color: var(--sea); margin-top: .2rem; }
+  .tools p { margin: 0; max-width: 62ch; }
+
+  /* Yetkinlikler */
+  .skills { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
+  .skills h3, .later h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .6rem; }
+  .skills ul, .later ul { list-style: none; }
+  .skills li { padding-block: .3rem; border-top: 1px solid var(--rule); }
+  .later { display: grid; gap: 2.5rem; margin-top: 3.5rem; }
+  @media (min-width: 48rem) { .later { grid-template-columns: 1fr 1fr; gap: 3rem; } }
+  .later p { margin: 0; max-width: 48ch; }
+  .later li { padding-left: 1.1rem; position: relative; padding-block: .25rem; }
+  .later li::before { content: ""; position: absolute; left: 0; top: .95em; width: .45rem; height: 2px; background: var(--bordo); }
+
+  /* İletişim */
+  .contact { display: grid; gap: 2rem; align-items: end; padding-block: clamp(4rem, 10vw, 7.5rem); border-top: 1px solid var(--rule); }
+  @media (min-width: 48rem) { .contact { grid-template-columns: 11rem minmax(0, 1fr); gap: 3rem; } }
+  .contact img { width: 11rem; height: 11rem; object-fit: cover; border-radius: 6px; display: block; background: var(--lift); }
+  .contact h2 { font-size: clamp(1.9rem, 3.6vw, 2.6rem); font-weight: 800; letter-spacing: -.025em; }
+  .contact p { margin: .6rem 0 0; max-width: 50ch; color: var(--sea); font-size: 1.1rem; }
+  .mail { display: inline-block; margin-top: 1.25rem; font-weight: 700; font-size: clamp(1.2rem, 4.2vw, 2.6rem); letter-spacing: -.02em; overflow-wrap: anywhere; text-decoration-thickness: 2px; text-decoration-color: var(--bordo); }
+  .elsewhere { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-top: 1.25rem; font-weight: 600; }
+  .elsewhere li:last-child { font-weight: 400; color: var(--sea); }
+
+  footer { border-top: 1px solid var(--rule); }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; padding-block: 1.75rem 2.5rem; font-size: .88rem; color: var(--sea); }
+  footer p { margin: 0; }
+  footer em { font-style: italic; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .name { transition: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top wrap">
+  <a class="handle" href="https://github.com/muhammedeminsekerr">@muhammedeminsekerr</a>
+  <nav aria-label="Sayfa bölümleri">
+    <a href="#projeler">Projeler</a>
+    <a href="#yetkinlikler">Yetkinlikler</a>
+    <a href="#iletisim">İletişim</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap" id="hero" aria-label="Giriş">
+    <h1 class="name" aria-label="Muhammed Emin Şeker">
+      <span class="line" data-plain="Muhammed" aria-hidden="true">Muhammed</span>
+      <span class="line" data-plain="Emin" aria-hidden="true">Emin</span>
+      <span class="line" data-plain="Şeker" aria-hidden="true">Şeker</span>
+    </h1>
+
+    <div class="hero-body">
+      <div>
+        <p class="lede">Recep Tayyip Erdoğan Üniversitesi'nde 3. sınıf bilgisayar mühendisliği öğrencisiyim. Güvenliği saldırı tarafından öğreniyorum: bir şeyin nasıl kırıldığını anlamak için o aracı kendim yazıyorum.</p>
+        <ul class="links">
+          <li><a href="https://github.com/muhammedeminsekerr">GitHub</a></li>
+          <li><a href="https://www.linkedin.com/in/muhammed-emin-%C5%9Feker-b94937333/">LinkedIn</a></li>
+          <li><a href="mailto:muhammedeminsekerr@gmail.com">E-posta</a></li>
+        </ul>
+      </div>
+
+      <div class="cipher">
+        <label for="shift">Caesar kaydırması <output id="shiftOut" for="shift">0</output></label>
+        <input type="range" id="shift" min="0" max="25" step="1" value="0" aria-describedby="cipherNote">
+        <div class="abc" aria-hidden="true">
+          <span>düz</span><code>ABCDEFGHIJKLMNOPQRSTUVWXYZ</code>
+          <span>şifreli</span><code class="enc" id="abcEnc">ABCDEFGHIJKLMNOPQRSTUVWXYZ</code>
+        </div>
+        <p class="cipher-note" id="cipherNote">Bu sayfa 61 anahtarıyla şifrelenmiş açılır; 61 mod 26 = 9. Kaydırıcıyla ismimi yeniden şifreleyebilirsin. Formül <a href="https://github.com/muhammedeminsekerr/cipher-tool">cipher-tool</a> reposundakiyle aynı: (harf − taban + kaydırma) % 26.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="basari">
+    <div class="wrap">
+      <h2 class="award" id="basari">Siber Vatan 2026'da yarı finale kaldım.</h2>
+      <p>Ulusal siber güvenlik yarışması Siber Vatan'ın yarı final aşamasına yükseldim ve sertifikamı aldım. Şimdi hedef final.</p>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="projeler" aria-labelledby="projeler-baslik">
+    <h2 id="projeler-baslik">Projeler</h2>
+    <div>
+      <p class="sec-intro">Hepsi Python. Çoğu bir güvenlik sorusundan doğdu; biri de uzun videoları kısaltma derdinden.</p>
+
+      <article class="proj">
+        <h3><a href="https://github.com/muhammedeminsekerr/youtubetoshort">Kliphane</a></h3>
+        <p class="meta">youtubetoshort reposu, şu ana kadarki en eksiksiz projem</p>
+        <p class="summary">Bir YouTube linki yapıştırıyorsun; Kliphane videoyu indiriyor, konuşmayı yazıya döküyor, yapay zekâyla en güçlü anları seçiyor ve bunları altyazılı, dikey kısa videolara çeviriyor. Her şey kendi bilgisayarında çalışıyor, hiçbir video bir yere yüklenmiyor.</p>
+        <ol class="pipeline">
+          <li><strong>İndir</strong><span>yt-dlp videoyu en fazla 1080p kalitede çeker.</span></li>
+          <li><strong>Dinle</strong><span>faster-whisper konuşmayı yerelde, zaman damgalı metne döker.</span></li>
+          <li><strong>Seç</strong><span>Groq ya da Claude API, kancası güçlü klipleri başlangıç ve bitiş zamanlarıyla JSON olarak döndürür.</span></li>
+          <li><strong>Kes</strong><span>ffmpeg her klibi 1080×1920'ye çevirir, bulanık arka plan ve gömülü altyazı ekler.</span></li>
+        </ol>
+        <p class="stack">Python, FastAPI, Jinja2, vanilla JS, ffmpeg, faster-whisper, Groq / Anthropic API</p>
+      </article>
+
+      <article class="proj">
+        <h3><a href="https://github.com/muhammedeminsekerr/phishing-detection">phishing-detection</a></h3>
+        <p class="meta">Makine öğrenmesi, MIT lisanslı</p>
+        <p class="summary">Bir URL'nin oltalama mı yoksa güvenli mi olduğunu, yalnızca adres metnine bakarak tahmin eden bir sınıflandırıcı. Kara listeler sadece zaten bilinen kötü linkleri yakalar; oltalama siteleri ise çoğu zaman birkaç saat yaşar. Bu model daha önce hiç görülmemiş linkleri de yakalamak için URL'nin kendisinden örüntü öğreniyor.</p>
+
+        <figure class="url">
+          <code><mark>http://</mark><mark>guvenli-banka.com@</mark><mark>185.23.7.41</mark>/<mark>login</mark>/<mark>verify</mark></code>
+          <figcaption>Model bu linki metin olarak değil, sayılardan oluşan bir özellik vektörü olarak görüyor:</figcaption>
+          <dl>
+            <dt>http://</dt><dd>HTTPS yok, bağlantı şifrelenmemiş.</dd>
+            <dt>…@</dt><dd>Tarayıcı @ işaretinden öncesini yok sayar; gerçek hedef sonrasındaki adres.</dd>
+            <dt>185.23.7.41</dt><dd>Alan adı yerine çıplak IP adresi.</dd>
+            <dt>login, verify</dt><dd>Şüpheli anahtar kelimeler.</dd>
+            <dt>49 / 4</dt><dd>Karakter uzunluğu ve nokta sayısı.</dd>
+          </dl>
+        </figure>
+
+        <p class="pull">Kaçırılan her oltalama linki başarılı bir saldırı demek. Bu yüzden modeli accuracy'ye göre değil, recall'a göre değerlendiriyorum.</p>
+        <p class="stack">PhiUSIIL veri seti (235.795 etiketli URL), Random Forest, pandas, NumPy, scikit-learn, matplotlib. Sırada tek URL tahmin arayüzü ve model karşılaştırması var.</p>
+      </article>
+
+      <div class="kit">
+        <h3>Güvenlik araç kutusu</h3>
+        <p>Keşiften kriptografiye, sıfırdan yazdığım küçük ve odaklı araçlar.</p>
+        <ul class="tools">
+          <li>
+            <span class="tool-name"><a href="https://github.com/muhammedeminsekerr/port-scanner">port-scanner</a></span>
+            <p>Bir hedefte hangi portların açık olduğunu ve arkalarında hangi servislerin çalıştığını bulur. Her portu ayrı bir thread'de denediği için tek tek beklemekten kat kat hızlı. Güvenlik değerlendirmesinin ilk adımı: kapıları haritalamak.</p>
+          </li>
+          <li>
+            <span class="tool-name">hash-cracker<small>Repo şimdilik özel</small></span>
+            <p>Hash'lenmiş bir değerden asıl şifreyi geri bulmaya çalışır. Saldırganın gözünden şifre güvenliği.</p>
+          </li>
+          <li>
+            <span class="tool-name"><a href="https://github.com/muhammedeminsekerr/password-analyzer">password-analyzer</a></span>
+            <p>Hash cracker'ın tersi: şifreyi kırmak yerine ne kadar dayanıklı olduğunu ölçer. Uzunluğa, karakter çeşitliliğine ve yaygın zayıf kalıplara bakıp zayıf, orta ya da güçlü der ve nasıl iyileştirileceğini söyler.</p>
+          </li>
+          <li>
+            <span class="tool-name"><a href="https://github.com/muhammedeminsekerr/cipher-tool">cipher-tool</a></span>
+            <p>Caesar ve Vigenère şifrelerinin harici kütüphanesiz Python uygulaması. Büyük/küçük harfi korur, harf olmayanlara dokunmaz. Sayfanın başındaki kaydırıcı onun mantığıyla çalışıyor.</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="yetkinlikler" aria-labelledby="yetkinlik-baslik">
+    <h2 id="yetkinlik-baslik">Yetkinlikler</h2>
+    <div>
+      <div class="skills">
+        <div>
+          <h3>Diller</h3>
+          <ul><li>Python</li><li>C</li><li>Java</li><li>Bash</li></ul>
+        </div>
+        <div>
+          <h3>Güvenlik araçları</h3>
+          <ul><li>Kali Linux</li><li>Wireshark</li><li>Burp Suite</li><li>Nmap</li></ul>
+        </div>
+        <div>
+          <h3>Alanlar</h3>
+          <ul><li>Ağ güvenliği</li><li>Kriptografi</li><li>Web güvenliği</li><li>Linux</li><li>Yapay zekâ ve ML temelleri</li></ul>
+        </div>
+      </div>
+
+      <div class="later">
+        <div>
+          <h3>CTF</h3>
+          <p>TryHackMe ve PicoCTF'te aktifim, sırada HackTheBox var. En çok ağ, kriptografi, web exploitation, Linux ve OSINT sorularıyla uğraşıyorum.</p>
+        </div>
+        <div>
+          <h3>Şu sıralar</h3>
+          <ul>
+            <li>TryHackMe Jr Penetration Tester yolu</li>
+            <li>CompTIA Security+ hazırlığı</li>
+            <li>OWASP Top 10 ile web uygulama güvenliği</li>
+            <li>Yeni, yapay zekâ destekli güvenlik araçları</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact wrap" id="iletisim" aria-labelledby="iletisim-baslik">
+    <img src="https://avatars.githubusercontent.com/u/234917073?v=4" alt="Muhammed Emin Şeker" width="176" height="176" loading="lazy">
+    <div>
+      <h2 id="iletisim-baslik">İletişim</h2>
+      <p>Staj, CTF takımı ya da ortak bir proje için yazabilirsin.</p>
+      <a class="mail" href="mailto:muhammedeminsekerr@gmail.com">muhammedeminsekerr@gmail.com</a>
+      <ul class="elsewhere">
+        <li><a href="https://github.com/muhammedeminsekerr">GitHub</a></li>
+        <li><a href="https://www.linkedin.com/in/muhammed-emin-%C5%9Feker-b94937333/">LinkedIn</a></li>
+        <li>Trabzon</li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 Muhammed Emin Şeker</p>
+    <p><em>The quieter you become, the more you are able to hear.</em></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var hero = document.getElementById('hero');
+  var lines = Array.prototype.slice.call(document.querySelectorAll('.name .line'));
+  var slider = document.getElementById('shift');
+  var out = document.getElementById('shiftOut');
+  var abcEnc = document.getElementById('abcEnc');
+  var ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var KEY = 61 % 26; // Trabzon plakası, mod 26 = 9
+
+  // cipher-tool ile aynı formül: (harf - taban + kaydırma) % 26 + taban
+  function caesar(text, shift) {
+    return text.replace(/[A-Za-z]/g, function (ch) {
+      var base = ch <= 'Z' ? 65 : 97;
+      return String.fromCharCode((ch.charCodeAt(0) - base + shift + 26) % 26 + base);
+    });
+  }
+
+  function render(shift) {
+    lines.forEach(function (el) { el.textContent = caesar(el.dataset.plain, shift); });
+    out.value = shift;
+    out.textContent = shift;
+    abcEnc.textContent = caesar(ABC, shift);
+    hero.classList.toggle('is-cipher', shift !== 0);
+  }
+
+  var timer = null;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduce) {
+    render(0);
+  } else {
+    slider.value = KEY;
+    render(KEY);
+    var step = function () {
+      var v = Number(slider.value);
+      if (v <= 0) return;
+      v -= 1;
+      slider.value = v;
+      render(v);
+      timer = setTimeout(step, v > 2 ? 110 : 190);
+    };
+    timer = setTimeout(step, 1100);
+  }
+
+  slider.addEventListener('input', function () {
+    clearTimeout(timer);
+    render(Number(slider.value));
+  });
+})();
+</script>
+</body>
+</html>
