@@ -2,395 +2,1194 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Muhammed Emin Şeker | Bilgisayar mühendisliği, siber güvenlik</title>
-<meta name="description" content="RTEÜ 3. sınıf bilgisayar mühendisliği öğrencisi, Siber Vatan 2026 yarı finalisti. Python ile yazdığım güvenlik ve yapay zekâ araçları.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%238A1E3F'/%3E%3Ctext x='16' y='23' font-family='monospace' font-weight='700' font-size='20' text-anchor='middle' fill='%23E4E8E5'%3E%C5%9E%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Muhammed Emin Şeker | Disketler</title>
+<meta name="description" content="Muhammed Emin Şeker'in portfolyosu: Karadeniz'de yağmurlu bir gece, masada proje disketleri. Bir disket tak, bilgisayar anlatsın.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='3' y='3' width='26' height='26' rx='3' fill='%238A1E3F'/%3E%3Crect x='8' y='5' width='16' height='10' rx='1' fill='%23f1ead9'/%3E%3Crect x='10' y='19' width='12' height='9' fill='%23b7bbc2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300..800&family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=VT323&family=Patrick+Hand&family=Schibsted+Grotesk:wght@400..800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --fog: #E4E8E5;      /* Karadeniz sisi */
-    --lift: #EEF1EE;
-    --ink: #10262E;      /* gece denizi */
-    --sea: #3E5A62;
-    --bordo: #8A1E3F;    /* 61 */
-    --rule: #B7C1BE;
-    --mono: "Martian Mono", ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
+    --wood: #24160d;
+    --amber: #ffb547;
+    --cream: #f3e7cf;
+    --muted: #c9b79a;
+    --panel: rgba(22, 14, 8, .93);
+    --bordo: #8A1E3F;
     --sans: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    --wrap: 74rem;
+    --crt: "VT323", ui-monospace, Menlo, Consolas, monospace;
+    --hand: "Patrick Hand", "Comic Sans MS", "Segoe Print", cursive;
   }
-
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    margin: 0;
-    background: var(--fog);
-    color: var(--ink);
-    font: 400 1.0625rem/1.6 var(--sans);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-  }
-  a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .22em; }
-  a:hover { color: var(--bordo); }
-  :focus-visible { outline: 2px solid var(--bordo); outline-offset: 3px; border-radius: 2px; }
-  ul, ol { margin: 0; padding: 0; }
-  h2, h3 { margin: 0; }
+  html, body { margin: 0; background: var(--wood); color: var(--cream); font: 400 1rem/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+  body.wide { overflow: hidden; height: 100%; }
+  button { font: inherit; color: inherit; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 4px; }
+  svg :focus { outline: none; }
 
-  .wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: clamp(1.25rem, 5vw, 3rem); }
+  /* Sahne */
+  #stage { position: relative; }
+  body.wide #stage { position: fixed; inset: 0; }
+  #scene { display: block; width: 100%; height: 100%; user-select: none; -webkit-user-select: none; }
+  .clk { cursor: pointer; }
+  .clk .hl { transition: filter .2s ease; }
+  .clk:hover .hl, .clk:focus-visible .hl { filter: drop-shadow(0 0 7px rgba(255, 181, 71, .75)); }
 
-  /* Üst bar */
-  .top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding-block: 1.4rem; }
-  .handle { font-weight: 600; text-decoration: none; }
-  .top nav { display: flex; gap: clamp(1rem, 3vw, 2rem); font-size: .95rem; }
-  .top nav a { text-decoration: none; }
-  .top nav a:hover { text-decoration: underline; }
-  @media (max-width: 34rem) { .handle { display: none; } .top nav { width: 100%; justify-content: space-between; } }
+  .disk { cursor: pointer; }
+  .disk .lift { transition: transform .18s ease; }
+  .disk:hover .lift, .disk:focus-visible .lift { transform: translateY(-26px); }
+  .disk .ring { opacity: 0; transition: opacity .15s; }
+  .disk:focus-visible .ring { opacity: 1; }
+  .disk.flying { pointer-events: none; }
+  .disk.flying .lift { transform: none !important; transition: none; }
+  .disk .label-t { font-family: var(--hand); fill: #2a2018; }
 
-  /* Hero: şifreli isim */
-  .hero { padding-block: clamp(2rem, 6vw, 4.5rem) clamp(4rem, 9vw, 7rem); }
-  .name {
-    font-family: var(--mono);
-    font-weight: 700;
-    font-size: clamp(3rem, 14.5vw, 9.5rem);
-    line-height: .95;
-    letter-spacing: -.045em;
-    margin: 0;
-    color: var(--ink);
-    transition: color .35s ease;
-  }
-  .name .line { display: block; white-space: nowrap; }
-  .hero.is-cipher .name { color: var(--bordo); }
+  #cert .sway { transform-box: fill-box; transform-origin: 50% 0; transition: transform .3s ease; }
+  #cert:hover .sway, #cert:focus-visible .sway { transform: rotate(1.5deg); }
 
-  .hero-body { display: grid; gap: 2.75rem; margin-top: clamp(2.25rem, 5vw, 3.5rem); }
-  @media (min-width: 60rem) {
-    .hero-body { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 5rem; align-items: start; }
-  }
-  .lede { font-size: clamp(1.15rem, 2vw, 1.4rem); line-height: 1.45; margin: 0; max-width: 34ch; font-weight: 450; }
-  .links { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-top: 1.5rem; font-weight: 600; }
+  .fogA { animation: fog 40s ease-in-out infinite alternate; }
+  .fogB { animation: fog 31s ease-in-out infinite alternate-reverse; }
+  @keyframes fog { from { transform: translateX(-45px); } to { transform: translateX(55px); } }
 
-  .cipher label { display: flex; justify-content: space-between; align-items: baseline; font-weight: 600; font-size: .95rem; }
-  .cipher output { font-family: var(--mono); font-weight: 700; font-size: 1.35rem; color: var(--bordo); min-width: 2ch; text-align: right; }
-  .cipher input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 2rem; margin: .5rem 0 .75rem; background: transparent; cursor: pointer; }
-  .cipher input[type="range"]::-webkit-slider-runnable-track { height: 2px; background: var(--ink); }
-  .cipher input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 1.6rem; margin-top: calc(-.8rem + 1px); background: var(--bordo); border-radius: 2px; }
-  .cipher input[type="range"]::-moz-range-track { height: 2px; background: var(--ink); }
-  .cipher input[type="range"]::-moz-range-thumb { width: 14px; height: 1.6rem; background: var(--bordo); border: 0; border-radius: 2px; }
+  .steam path { opacity: 0; animation: steam 3.4s ease-in-out infinite; }
+  .steam path:nth-child(2) { animation-delay: 1.1s; }
+  .steam path:nth-child(3) { animation-delay: 2.2s; }
+  .steam.puff path { animation-duration: 1.1s; animation-delay: 0s; }
+  @keyframes steam { 0% { opacity: 0; transform: translateY(6px); } 40% { opacity: .5; } 100% { opacity: 0; transform: translateY(-26px); } }
 
-  .abc { display: grid; grid-template-columns: max-content 1fr; gap: .2rem .9rem; align-items: baseline; overflow-x: auto; }
-  .abc span { font-size: .8rem; color: var(--sea); }
-  .abc code { font-family: var(--mono); font-size: clamp(.6rem, 2.3vw, .82rem); letter-spacing: .22em; white-space: nowrap; }
-  .abc code.enc { color: var(--bordo); font-weight: 700; }
-  .cipher-note { font-size: .9rem; color: var(--sea); margin: 1rem 0 0; max-width: 46ch; }
+  #dark, #lampLight, #crtGlow { transition: opacity .3s ease; }
+  #scr { font-family: var(--crt); fill: var(--amber); }
+  #scrContent { opacity: 0; transform-box: view-box; transform-origin: 820px 396px; }
+  #scrContent.on { opacity: 1; }
+  #scrContent.boot { animation: boot .75s cubic-bezier(.2, .8, .2, 1); }
+  #scrContent.blip { animation: blip .28s linear; }
+  @keyframes boot { 0% { transform: scale(1, .01); filter: brightness(3); } 55% { transform: scale(1, 1.03); filter: brightness(1.6); } 100% { transform: scale(1, 1); filter: brightness(1); } }
+  @keyframes blip { 0% { opacity: .25; } 30% { opacity: 1; } 45% { opacity: .55; } 100% { opacity: 1; } }
 
-  /* Başarı bandı */
-  .band { background: var(--ink); color: var(--fog); }
-  .band .wrap { padding-block: clamp(3.5rem, 9vw, 6.5rem); }
-  .award { font-weight: 800; font-size: clamp(2rem, 5.6vw, 4.4rem); line-height: 1.04; letter-spacing: -.025em; max-width: 17ch; }
-  .band p { color: #B6C6C8; max-width: 54ch; margin: 1.4rem 0 0; font-size: 1.1rem; }
+  /* Üst bilgi */
+  .hud { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; padding: 16px 20px; z-index: 4; }
+  body.wide .hud { position: fixed; top: 0; left: 0; right: 0; pointer-events: none; padding-top: max(16px, env(safe-area-inset-top)); }
+  body.wide .hud > * { pointer-events: auto; }
+  .who { text-shadow: 0 1px 8px rgba(0, 0, 0, .8); }
+  .who strong { display: block; font-size: 1.05rem; font-weight: 750; letter-spacing: -.01em; }
+  .who span { display: block; font-size: .85rem; color: var(--muted); }
+  body.tall .who span { display: none; }
+  body.tall .hud { padding: 12px 14px; align-items: center; }
+  .hud-r { display: flex; gap: .5rem; flex-shrink: 0; }
+  .pill { display: inline-flex; align-items: center; gap: .4rem; padding: .4rem .8rem; border-radius: 999px; background: rgba(22, 14, 8, .75); border: 1px solid rgba(255, 181, 71, .35); font-size: .85rem; font-weight: 600; text-decoration: none; cursor: pointer; }
+  .pill:hover { border-color: var(--amber); }
+  .pill svg { width: 16px; height: 16px; }
 
-  /* Bölüm iskeleti */
-  .sec { display: grid; gap: 2rem; padding-block: clamp(4rem, 10vw, 7.5rem); }
-  .sec + .sec { border-top: 1px solid var(--rule); }
-  .sec > h2 { font-size: clamp(1.9rem, 3.2vw, 2.2rem); font-weight: 800; letter-spacing: -.025em; line-height: 1.05; }
-  @media (min-width: 60rem) {
-    .sec { grid-template-columns: 15rem minmax(0, 1fr); gap: 3rem; }
-    .sec > h2 { position: sticky; top: 2rem; align-self: start; }
-  }
-  .sec-intro { margin: 0 0 1rem; max-width: 60ch; color: var(--sea); font-size: 1.1rem; }
+  /* Alt panel */
+  .panel { z-index: 5; }
+  body.wide .panel { position: fixed; left: 50%; bottom: max(clamp(12px, 3vh, 28px), env(safe-area-inset-bottom)); transform: translateX(-50%); width: min(820px, calc(100vw - 24px)); }
+  body.tall .panel { padding: 0 12px 24px; }
+  .panel > * { animation: rise .28s ease-out; }
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 
-  /* Projeler */
-  .proj { padding-block: 2.5rem 3rem; border-top: 1px solid var(--rule); }
-  .proj:first-of-type { border-top: 2px solid var(--ink); }
-  .proj h3 { font-family: var(--mono); font-weight: 650; font-size: clamp(1.45rem, 3vw, 2.1rem); letter-spacing: -.03em; line-height: 1.15; }
-  .proj h3 a { text-decoration: none; }
-  .proj h3 a:hover { text-decoration: underline; }
-  .meta { color: var(--sea); font-size: .92rem; margin: .45rem 0 0; }
-  .summary { max-width: 62ch; margin: 1.1rem 0 0; font-size: 1.1rem; }
-  .stack { color: var(--sea); font-size: .92rem; margin: 1.75rem 0 0; max-width: 70ch; }
+  .hintbox { margin: 0 auto; width: fit-content; max-width: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: .4rem 1.2rem; padding: .65rem 1.1rem; background: rgba(22, 14, 8, .82); border: 1px solid rgba(255, 181, 71, .3); border-radius: 999px; font-size: .92rem; }
+  body.tall .hintbox { border-radius: 12px; }
+  .hintbox p { margin: 0; }
+  .keys { color: var(--muted); font-size: .85rem; }
+  kbd { font-family: var(--sans); font-size: .78rem; font-weight: 700; padding: .05rem .4rem; border-radius: 4px; border: 1px solid rgba(243, 231, 207, .35); border-bottom-width: 2px; margin-right: .2rem; color: var(--cream); }
+  @media (hover: none) { .keys, .dlg kbd { display: none; } }
 
-  .pipeline { list-style: none; display: grid; gap: 1.5rem; margin-top: 2.25rem; grid-template-columns: 1fr; counter-reset: step; }
-  @media (min-width: 34rem) { .pipeline { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (min-width: 76rem) { .pipeline { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  .pipeline li { counter-increment: step; border-top: 2px solid var(--ink); padding-top: .9rem; }
-  .pipeline li::before { content: counter(step); display: block; font-family: var(--mono); font-weight: 700; font-size: 1.6rem; line-height: 1; color: var(--bordo); margin-bottom: .7rem; }
-  .pipeline strong { display: block; font-size: 1.05rem; }
-  .pipeline span { display: block; color: var(--sea); font-size: .95rem; margin-top: .25rem; }
+  .dlg { background: var(--panel); border: 1.5px solid rgba(255, 181, 71, .5); border-radius: 12px; padding: 14px 20px 16px; box-shadow: 0 24px 60px rgba(0, 0, 0, .55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  .dlg-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .tag { display: inline-flex; align-items: center; gap: .5rem; font-family: var(--crt); font-size: 1.2rem; color: var(--amber); line-height: 1; }
+  .tag i { width: 12px; height: 12px; border-radius: 2px; display: inline-block; }
+  .x { background: none; border: 1px solid rgba(243, 231, 207, .25); border-radius: 999px; padding: .3rem .75rem; font-size: .85rem; font-weight: 600; cursor: pointer; }
+  .x:hover { border-color: var(--amber); }
+  .dlg h2 { margin: .45rem 0 0; font-size: clamp(1.3rem, 2.6vw, 1.6rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+  .cat { margin: .2rem 0 0; color: var(--muted); font-size: .92rem; }
+  .desc { margin: .5rem 0 0; max-width: 72ch; min-height: 3.1em; font-size: .98rem; line-height: 1.5; cursor: default; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .7rem 1rem; margin-top: .8rem; }
+  .chips { list-style: none; display: flex; flex-wrap: wrap; gap: .35rem; margin: 0; padding: 0; }
+  .chips li { font-size: .82rem; padding: .15rem .6rem; border-radius: 4px; background: rgba(255, 181, 71, .12); color: #f7d9a6; }
+  .acts { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+  .btn { display: inline-flex; align-items: center; padding: .5rem .95rem; border-radius: 8px; background: var(--amber); color: #24160d; font-weight: 700; font-size: .92rem; text-decoration: none; border: 0; cursor: pointer; }
+  .btn:hover { background: #ffc66e; }
+  .btn.ghost { background: transparent; color: var(--cream); border: 1px solid rgba(243, 231, 207, .3); }
+  .btn.ghost:hover { border-color: var(--amber); }
+  .locked { font-size: .88rem; color: var(--muted); }
 
-  .url { margin: 2rem 0 0; padding: clamp(1.25rem, 3vw, 2rem); background: var(--lift); border-radius: 6px; }
-  .url > code { display: block; font-family: var(--mono); font-size: clamp(.78rem, 2.1vw, 1.15rem); line-height: 1.7; color: var(--sea); overflow-wrap: anywhere; }
-  .url mark { background: none; color: var(--ink); font-weight: 700; border-bottom: 2px solid var(--bordo); }
-  .url figcaption { font-size: .92rem; color: var(--sea); margin-top: 1rem; }
-  .url dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: .55rem 1.25rem; margin: 1.1rem 0 0; font-size: .97rem; }
-  .url dt { font-family: var(--mono); font-size: .82rem; font-weight: 600; color: var(--bordo); padding-top: .15rem; }
-  .url dd { margin: 0; }
+  /* Giriş */
+  #intro { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: 24px; background: radial-gradient(ellipse at 50% 40%, rgba(36, 22, 13, .72), rgba(8, 6, 4, .94)); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); transition: opacity .8s ease, visibility .8s; }
+  #intro.gone { opacity: 0; visibility: hidden; }
+  .intro-card { max-width: 34rem; }
+  .intro-card h1 { margin: 0; font-size: clamp(2.2rem, 7vw, 3.6rem); font-weight: 800; letter-spacing: -.035em; line-height: 1; }
+  .intro-card p { margin: 1rem 0 0; color: #e2d4b9; font-size: 1.08rem; max-width: 36ch; }
+  .intro-acts { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.6rem; }
+  .intro-acts .btn { padding: .75rem 1.3rem; font-size: 1rem; }
+  .intro-note { font-size: .88rem !important; color: var(--muted) !important; }
 
-  .pull { font-size: clamp(1.25rem, 2.4vw, 1.6rem); font-weight: 650; line-height: 1.3; letter-spacing: -.01em; max-width: 36ch; margin: 2rem 0 0; padding-left: 1.1rem; border-left: 3px solid var(--bordo); }
+  #toast { position: fixed; top: 72px; left: 50%; transform: translate(-50%, -8px); z-index: 6; padding: .55rem 1rem; border-radius: 999px; background: var(--panel); border: 1px solid rgba(255, 181, 71, .45); font-family: var(--hand); font-size: 1.15rem; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; white-space: nowrap; }
+  #toast.show { opacity: 1; transform: translate(-50%, 0); }
 
-  .kit { margin-top: 3.5rem; }
-  .kit > h3 { font-size: 1.4rem; font-weight: 800; letter-spacing: -.015em; }
-  .kit > p { margin: .4rem 0 0; color: var(--sea); max-width: 60ch; }
-  .tools { list-style: none; margin-top: 1.5rem; border-bottom: 1px solid var(--rule); }
-  .tools li { display: grid; gap: .35rem; padding-block: 1.3rem; border-top: 1px solid var(--rule); }
-  @media (min-width: 48rem) { .tools li { grid-template-columns: 14rem minmax(0, 1fr); gap: 2rem; } }
-  .tool-name { font-family: var(--mono); font-weight: 600; font-size: 1rem; }
-  .tool-name a { text-decoration: none; }
-  .tool-name a:hover { text-decoration: underline; }
-  .tool-name small { display: block; font-family: var(--sans); font-weight: 400; font-size: .85rem; color: var(--sea); margin-top: .2rem; }
-  .tools p { margin: 0; max-width: 62ch; }
+  .snd-wrap { position: relative; }
+  .pill .now { font-weight: 400; color: var(--muted); }
+  .pop { position: absolute; right: 0; top: calc(100% + 8px); width: min(310px, calc(100vw - 28px)); background: var(--panel); border: 1px solid rgba(255, 181, 71, .45); border-radius: 12px; padding: 14px 16px 16px; box-shadow: 0 18px 50px rgba(0, 0, 0, .55); z-index: 8; text-shadow: none; }
+  .pop[hidden] { display: none; }
+  .pop .grp + .grp { margin-top: .7rem; padding-top: .7rem; border-top: 1px solid rgba(243, 231, 207, .14); }
+  .pop .grp-t { margin: 0 0 .25rem; font-size: .8rem; color: var(--muted); }
+  .pop label { display: flex; align-items: center; gap: .6rem; padding: .28rem 0; font-size: .93rem; cursor: pointer; }
+  .pop label span small { display: block; font-size: .76rem; color: var(--muted); line-height: 1.2; }
+  .pop input[type="radio"], .pop input[type="checkbox"] { accent-color: var(--amber); width: 16px; height: 16px; margin: 0; flex-shrink: 0; }
+  .pop input[type="range"] { width: 100%; accent-color: var(--amber); margin: .3rem 0 0; }
+  .pop .vol-l { display: block; font-size: .85rem; padding: 0; cursor: default; }
+  .pop .foot-note { margin: .7rem 0 0; font-size: .76rem; color: var(--muted); }
 
-  /* Yetkinlikler */
-  .skills { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
-  .skills h3, .later h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .6rem; }
-  .skills ul, .later ul { list-style: none; }
-  .skills li { padding-block: .3rem; border-top: 1px solid var(--rule); }
-  .later { display: grid; gap: 2.5rem; margin-top: 3.5rem; }
-  @media (min-width: 48rem) { .later { grid-template-columns: 1fr 1fr; gap: 3rem; } }
-  .later p { margin: 0; max-width: 48ch; }
-  .later li { padding-left: 1.1rem; position: relative; padding-block: .25rem; }
-  .later li::before { content: ""; position: absolute; left: 0; top: .95em; width: .45rem; height: 2px; background: var(--bordo); }
-
-  /* İletişim */
-  .contact { display: grid; gap: 2rem; align-items: end; padding-block: clamp(4rem, 10vw, 7.5rem); border-top: 1px solid var(--rule); }
-  @media (min-width: 48rem) { .contact { grid-template-columns: 11rem minmax(0, 1fr); gap: 3rem; } }
-  .contact img { width: 11rem; height: 11rem; object-fit: cover; border-radius: 6px; display: block; background: var(--lift); }
-  .contact h2 { font-size: clamp(1.9rem, 3.6vw, 2.6rem); font-weight: 800; letter-spacing: -.025em; }
-  .contact p { margin: .6rem 0 0; max-width: 50ch; color: var(--sea); font-size: 1.1rem; }
-  .mail { display: inline-block; margin-top: 1.25rem; font-weight: 700; font-size: clamp(1.2rem, 4.2vw, 2.6rem); letter-spacing: -.02em; overflow-wrap: anywhere; text-decoration-thickness: 2px; text-decoration-color: var(--bordo); }
-  .elsewhere { list-style: none; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-top: 1.25rem; font-weight: 600; }
-  .elsewhere li:last-child { font-weight: 400; color: var(--sea); }
-
-  footer { border-top: 1px solid var(--rule); }
-  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .75rem; padding-block: 1.75rem 2.5rem; font-size: .88rem; color: var(--sea); }
-  footer p { margin: 0; }
-  footer em { font-style: italic; }
+  noscript ul { padding: 24px 40px; }
 
   @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    .name { transition: none; }
+    .fogA, .fogB, .steam path, #scrContent.boot, #scrContent.blip, .panel > * { animation: none !important; }
+    .steam path { opacity: .3; }
+    .disk .lift, #cert .sway, #intro { transition: none; }
   }
 </style>
 </head>
-<body>
+<body class="wide">
 
-<header class="top wrap">
-  <a class="handle" href="https://github.com/muhammedeminsekerr">@muhammedeminsekerr</a>
-  <nav aria-label="Sayfa bölümleri">
-    <a href="#projeler">Projeler</a>
-    <a href="#yetkinlikler">Yetkinlikler</a>
-    <a href="#iletisim">İletişim</a>
-  </nav>
+<header class="hud">
+  <div class="who">
+    <strong>Muhammed Emin Şeker</strong>
+    <span>RTEÜ Bilgisayar Mühendisliği, Siber Vatan 2026 yarı finalisti</span>
+  </div>
+  <div class="hud-r">
+    <div class="snd-wrap">
+      <button class="pill" id="snd" type="button" aria-expanded="false" aria-controls="sndPop">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path id="sndWave" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/></svg>
+        <span id="sndTxt">Ses</span>
+      </button>
+      <div class="pop" id="sndPop" hidden>
+        <div class="grp">
+          <label><input type="checkbox" id="sfxChk" checked> <span>Efektler ve yağmur</span></label>
+        </div>
+        <div class="grp" role="radiogroup" aria-labelledby="musT">
+          <p class="grp-t" id="musT">Arka plan müziği</p>
+          <label><input type="radio" name="mus" value=""> <span>Kapalı</span></label>
+          <label><input type="radio" name="mus" value="bach"> <span>Bach, Prelüd Do majör<small>BWV 846, 1722</small></span></label>
+          <label><input type="radio" name="mus" value="satie"> <span>Satie, Gymnopédie No. 1<small>1888</small></span></label>
+          <label><input type="radio" name="mus" value="elise"> <span>Beethoven, Für Elise<small>1810</small></span></label>
+          <label class="vol-l" for="musVol">Müzik sesi</label>
+          <input type="range" id="musVol" min="0" max="100" value="60">
+        </div>
+        <p class="foot-note">Müzikler de tarayıcıda çalınıyor; kayıt değil, sentezlenmiş piyano. Raftaki radyoya tıklayarak da parça değiştirebilirsin.</p>
+      </div>
+    </div>
+    <a class="pill" href="https://github.com/muhammedeminsekerr" target="_blank" rel="noopener">GitHub</a>
+  </div>
 </header>
 
-<main>
-  <section class="hero wrap" id="hero" aria-label="Giriş">
-    <h1 class="name" aria-label="Muhammed Emin Şeker">
-      <span class="line" data-plain="Muhammed" aria-hidden="true">Muhammed</span>
-      <span class="line" data-plain="Emin" aria-hidden="true">Emin</span>
-      <span class="line" data-plain="Şeker" aria-hidden="true">Şeker</span>
-    </h1>
+<div id="stage">
+<svg id="scene" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-label="Ahşap bir oda: masada bilgisayar, disket kasası, çay bardağı ve lamba">
+  <defs>
+    <pattern id="planks" width="120" height="400" patternUnits="userSpaceOnUse">
+      <rect width="120" height="400" fill="#3f2718"/>
+      <rect x="0" width="58" height="400" fill="#4a2e1c"/>
+      <rect x="60" width="58" height="400" fill="#442a19"/>
+      <rect x="58" width="2" height="400" fill="#2a170c"/>
+      <rect x="118" width="2" height="400" fill="#2a170c"/>
+      <path d="M12 0 Q17 200 9 400" stroke="#56371f" stroke-width="1.2" fill="none" opacity=".55"/>
+      <path d="M40 0 Q35 140 44 400" stroke="#3c2516" stroke-width="1" fill="none" opacity=".6"/>
+      <path d="M82 0 Q76 180 86 400" stroke="#523420" stroke-width="1.2" fill="none" opacity=".5"/>
+      <ellipse cx="28" cy="120" rx="6" ry="3" fill="#36210f"/>
+      <ellipse cx="94" cy="300" rx="5" ry="2.5" fill="#36210f"/>
+    </pattern>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a1524"/><stop offset="1" stop-color="#1e3850"/>
+    </linearGradient>
+    <radialGradient id="moonGlow"><stop offset="0" stop-color="#f3e7c9" stop-opacity=".35"/><stop offset="1" stop-color="#f3e7c9" stop-opacity="0"/></radialGradient>
+    <radialGradient id="vignette" cx="800" cy="520" r="1050" gradientUnits="userSpaceOnUse">
+      <stop offset=".45" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".6"/>
+    </radialGradient>
+    <radialGradient id="crtG"><stop offset="0" stop-color="#ffb547" stop-opacity=".22"/><stop offset="1" stop-color="#ffb547" stop-opacity="0"/></radialGradient>
+    <linearGradient id="cone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd58a" stop-opacity=".28"/><stop offset="1" stop-color="#ffd58a" stop-opacity=".04"/>
+    </linearGradient>
+    <radialGradient id="pool"><stop offset="0" stop-color="#ffcf7a" stop-opacity=".32"/><stop offset="1" stop-color="#ffcf7a" stop-opacity="0"/></radialGradient>
+    <linearGradient id="screenBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e1309"/><stop offset="1" stop-color="#0d0804"/>
+    </linearGradient>
+    <radialGradient id="screenVig" cx=".5" cy=".5" r=".7">
+      <stop offset=".6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".6"/>
+    </radialGradient>
+    <pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse"><rect width="4" height="2" fill="#000" opacity=".3"/></pattern>
+    <pattern id="rainPat" width="70" height="140" patternUnits="userSpaceOnUse">
+      <g stroke="#9fb6c9" stroke-width="1.3" stroke-linecap="round" opacity=".45">
+        <line x1="10" y1="0" x2="5" y2="22"/><line x1="42" y1="38" x2="37" y2="58"/><line x1="60" y1="84" x2="55" y2="104"/>
+        <line x1="24" y1="96" x2="19" y2="116"/><line x1="52" y1="4" x2="48" y2="20"/><line x1="33" y1="120" x2="29" y2="136"/>
+      </g>
+      <animateTransform id="rainAnim" attributeName="patternTransform" type="translate" from="0 0" to="-28 140" dur=".55s" repeatCount="indefinite"/>
+    </pattern>
+    <filter id="phos" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#000" flood-opacity=".45"/>
+    </filter>
+    <clipPath id="winClip"><rect x="130" y="130" width="400" height="300"/></clipPath>
+    <clipPath id="screenClip"><rect x="690" y="292" width="260" height="208" rx="14"/></clipPath>
+  </defs>
 
-    <div class="hero-body">
-      <div>
-        <p class="lede">Recep Tayyip Erdoğan Üniversitesi'nde 3. sınıf bilgisayar mühendisliği öğrencisiyim. Güvenliği saldırı tarafından öğreniyorum: bir şeyin nasıl kırıldığını anlamak için o aracı kendim yazıyorum.</p>
-        <ul class="links">
-          <li><a href="https://github.com/muhammedeminsekerr">GitHub</a></li>
-          <li><a href="https://www.linkedin.com/in/muhammed-emin-%C5%9Feker-b94937333/">LinkedIn</a></li>
-          <li><a href="mailto:muhammedeminsekerr@gmail.com">E-posta</a></li>
-        </ul>
-      </div>
+  <!-- Duvar -->
+  <rect x="-800" y="-1400" width="3200" height="2400" fill="url(#planks)"/>
+  <rect x="-800" y="40" width="3200" height="40" fill="#2b190e"/>
+  <rect x="-800" y="80" width="3200" height="6" fill="#000" opacity=".25"/>
+  <rect x="575" y="80" width="30" height="540" fill="#33200f"/>
+  <rect x="1095" y="80" width="30" height="540" fill="#33200f"/>
 
-      <div class="cipher">
-        <label for="shift">Caesar kaydırması <output id="shiftOut" for="shift">0</output></label>
-        <input type="range" id="shift" min="0" max="25" step="1" value="0" aria-describedby="cipherNote">
-        <div class="abc" aria-hidden="true">
-          <span>düz</span><code>ABCDEFGHIJKLMNOPQRSTUVWXYZ</code>
-          <span>şifreli</span><code class="enc" id="abcEnc">ABCDEFGHIJKLMNOPQRSTUVWXYZ</code>
-        </div>
-        <p class="cipher-note" id="cipherNote">Bu sayfa 61 anahtarıyla şifrelenmiş açılır; 61 mod 26 = 9. Kaydırıcıyla ismimi yeniden şifreleyebilirsin. Formül <a href="https://github.com/muhammedeminsekerr/cipher-tool">cipher-tool</a> reposundakiyle aynı: (harf − taban + kaydırma) % 26.</p>
-      </div>
+  <!-- Pencere -->
+  <g id="window">
+    <rect x="110" y="110" width="440" height="340" rx="6" fill="#6b4428"/>
+    <g clip-path="url(#winClip)">
+      <rect x="130" y="130" width="400" height="300" fill="url(#sky)"/>
+      <g fill="#f3e7c9">
+        <circle cx="170" cy="160" r="1.2"/><circle cx="230" cy="190" r="1"/><circle cx="300" cy="150" r="1.4"/><circle cx="360" cy="175" r="1"/><circle cx="400" cy="145" r="1.1"/><circle cx="505" cy="250" r="1"/><circle cx="210" cy="230" r="1"/>
+      </g>
+      <circle cx="455" cy="185" r="70" fill="url(#moonGlow)"/>
+      <circle cx="455" cy="185" r="25" fill="#f3e7c9"/>
+      <circle cx="446" cy="179" r="5" fill="#e4d6b4"/>
+      <path d="M130 300 C 200 250 260 270 320 240 C 380 215 450 250 530 230 L530 430 L130 430 Z" fill="#1b3140"/>
+      <path d="M130 340 C 210 300 280 330 350 300 C 420 275 480 310 530 295 L530 430 L130 430 Z" fill="#173329"/>
+      <rect x="296" y="312" width="5" height="4" fill="#ffcf7a"/><rect x="305" y="312" width="5" height="4" fill="#ffcf7a" opacity=".7"/>
+      <g class="fogA"><ellipse cx="260" cy="325" rx="190" ry="14" fill="#cfd8de" opacity=".16"/><ellipse cx="480" cy="352" rx="150" ry="11" fill="#cfd8de" opacity=".13"/></g>
+      <path d="M130 390 C 220 350 300 370 380 345 C 440 330 500 350 530 345 L530 430 L130 430 Z" fill="#1f4232"/>
+      <g fill="none" stroke="#2f6046" stroke-width="3" stroke-dasharray="7 5" stroke-linecap="round">
+        <path d="M140 402 C 230 367 300 387 380 364 C 440 350 500 367 530 364"/>
+        <path d="M135 416 C 230 384 300 402 380 382 C 440 370 500 384 530 382"/>
+        <path d="M135 429 C 230 400 300 416 380 398 C 440 388 500 400 530 398"/>
+      </g>
+      <g class="fogB"><ellipse cx="330" cy="398" rx="240" ry="16" fill="#cfd8de" opacity=".17"/></g>
+      <rect x="130" y="130" width="400" height="300" fill="url(#rainPat)"/>
+      <polygon points="130,130 260,130 150,430 130,430" fill="#fff" opacity=".035"/>
+      <rect id="flash" x="130" y="130" width="400" height="300" fill="#dfe8ff" opacity="0"/>
+    </g>
+    <rect x="325" y="130" width="10" height="300" fill="#6b4428"/>
+    <rect x="130" y="275" width="400" height="10" fill="#6b4428"/>
+    <rect x="95" y="446" width="470" height="18" rx="3" fill="#7a5032"/>
+    <rect x="95" y="462" width="470" height="5" fill="#000" opacity=".25"/>
+  </g>
+
+  <!-- Raf -->
+  <g id="shelf">
+    <rect x="1150" y="300" width="370" height="16" rx="2" fill="#7a5032"/>
+    <rect x="1150" y="316" width="370" height="5" fill="#000" opacity=".25"/>
+    <path d="M1180 316 L1180 352 L1214 316 Z M1480 316 L1480 352 L1446 316 Z" fill="#5b3a22"/>
+    <g>
+      <rect x="1170" y="210" width="26" height="90" fill="#6e2b2b"/><rect x="1198" y="225" width="22" height="75" fill="#2f4a5a"/>
+      <rect x="1222" y="200" width="30" height="100" fill="#8a6a3a"/><rect x="1254" y="218" width="24" height="82" fill="#3d5a3a"/>
+      <rect x="1280" y="232" width="20" height="68" fill="#5a3d5a"/>
+      <rect x="1308" y="212" width="26" height="88" fill="#a0522d" transform="rotate(14 1308 300)"/>
+      <rect x="1360" y="268" width="80" height="16" fill="#2e3d4f"/><rect x="1364" y="284" width="74" height="16" fill="#7a3b2a"/>
+      <g id="radio" class="clk" tabindex="0" role="button" aria-label="Radyo: müzik parçasını değiştir">
+        <g class="hl">
+          <line x1="1428" y1="228" x2="1452" y2="188" stroke="#9a9a9a" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="1452" cy="188" r="2.5" fill="#bdbdbd"/>
+          <rect x="1364" y="226" width="74" height="42" rx="7" fill="#6b3b22"/>
+          <rect x="1364" y="226" width="74" height="6" rx="3" fill="#7f4a2c"/>
+          <circle cx="1384" cy="248" r="13" fill="#3a2416"/>
+          <g stroke="#5a3a24" stroke-width="1.5"><line x1="1374" y1="243" x2="1394" y2="243"/><line x1="1372" y1="248" x2="1396" y2="248"/><line x1="1374" y1="253" x2="1394" y2="253"/></g>
+          <rect x="1403" y="236" width="28" height="11" rx="2" fill="#2a1a10"/>
+          <rect id="radioLight" x="1405" y="238" width="24" height="7" rx="1.5" fill="#4a3020"/>
+          <line id="radioNeedle" x1="1410" y1="237" x2="1410" y2="246" stroke="#e8d3a8" stroke-width="1.5"/>
+          <circle cx="1410" cy="258" r="4" fill="#c9a46a"/><circle cx="1424" cy="258" r="4" fill="#c9a46a"/>
+        </g>
+      </g>
+      <g fill="#c9a46a" opacity=".6"><rect x="1176" y="230" width="14" height="3"/><rect x="1228" y="222" width="18" height="3"/><rect x="1259" y="240" width="14" height="3"/></g>
+    </g>
+    <path d="M1462 300 L1470 262 L1498 262 L1506 300 Z" fill="#9c5a3a"/>
+    <g fill="#3f7a4a"><ellipse cx="1474" cy="250" rx="9" ry="20" transform="rotate(-25 1474 250)"/><ellipse cx="1488" cy="244" rx="8" ry="22"/><ellipse cx="1500" cy="252" rx="9" ry="18" transform="rotate(28 1500 252)"/></g>
+    <!-- 61 flaması -->
+    <line x1="1330" y1="321" x2="1330" y2="345" stroke="#2a170c" stroke-width="2"/>
+    <g transform="rotate(-6 1330 345)">
+      <path d="M1290 345 L1370 345 L1330 415 Z" fill="#6fa8cf"/>
+      <path d="M1290 345 L1370 345 L1353 375 L1307 375 Z" fill="#8A1E3F"/>
+      <text x="1330" y="370" text-anchor="middle" font-family="Schibsted Grotesk, system-ui, sans-serif" font-weight="800" font-size="19" fill="#f3e7cf">61</text>
+    </g>
+  </g>
+
+  <!-- Sertifika -->
+  <g id="cert" class="clk" tabindex="0" role="button" aria-label="Siber Vatan 2026 sertifikası: hakkımda">
+    <line x1="850" y1="86" x2="772" y2="112" stroke="#1d120a" stroke-width="2"/><line x1="850" y1="86" x2="928" y2="112" stroke="#1d120a" stroke-width="2"/>
+    <circle cx="850" cy="86" r="4" fill="#9a8a70"/>
+    <g class="sway"><g class="hl">
+      <rect x="760" y="108" width="180" height="132" rx="3" fill="#6b4428" filter="url(#shadow)"/>
+      <rect x="769" y="117" width="162" height="114" fill="#efe6cf"/>
+      <rect x="775" y="123" width="150" height="102" fill="none" stroke="#c9b48a" stroke-width="1.5"/>
+      <text x="850" y="148" text-anchor="middle" font-family="Schibsted Grotesk, system-ui, sans-serif" font-weight="800" font-size="15" fill="#3a2a1a" letter-spacing="1">SİBER VATAN</text>
+      <text x="850" y="164" text-anchor="middle" font-family="Schibsted Grotesk, system-ui, sans-serif" font-weight="600" font-size="11" fill="#6a5434">2026</text>
+      <line x1="800" y1="172" x2="900" y2="172" stroke="#c9b48a"/>
+      <text x="850" y="194" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" fill="#8A1E3F">Yarı Finalist</text>
+      <text x="838" y="216" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="13" fill="#3a2a1a">M. E. Şeker</text>
+      <path d="M902 214 L896 236 L904 231 L910 238 L912 216 Z" fill="#6e1630"/>
+      <circle cx="905" cy="210" r="12" fill="#8A1E3F"/><circle cx="905" cy="210" r="7.5" fill="none" stroke="#c9a46a" stroke-width="1.2"/>
+    </g></g>
+  </g>
+
+  <!-- Masa -->
+  <polygon points="40,618 1560,618 1600,666 0,666" fill="#7a4e2d"/>
+  <line x1="40" y1="618" x2="1560" y2="618" stroke="#9a6a40" stroke-width="2"/>
+  <rect x="-800" y="666" width="3200" height="400" fill="#563620"/>
+  <rect x="-800" y="666" width="3200" height="6" fill="#3e2615"/>
+  <g fill="none" stroke="#4a2d19" stroke-width="1.2" opacity=".7">
+    <path d="M0 720 Q400 712 800 724 T1600 716"/><path d="M0 800 Q420 794 820 806 T1600 798"/><path d="M0 870 Q380 864 800 874 T1600 866"/>
+  </g>
+  <rect x="120" y="700" width="360" height="150" rx="4" fill="#5e3b23" stroke="#3e2615" stroke-width="2"/>
+  <rect x="1120" y="700" width="360" height="150" rx="4" fill="#5e3b23" stroke="#3e2615" stroke-width="2"/>
+  <rect x="270" y="768" width="60" height="12" rx="6" fill="#c9a46a"/><rect x="1270" y="768" width="60" height="12" rx="6" fill="#c9a46a"/>
+
+  <!-- Disket kasası -->
+  <ellipse cx="405" cy="624" rx="235" ry="8" fill="#000" opacity=".3"/>
+  <rect x="196" y="528" width="418" height="26" rx="2" fill="#5b3a22"/>
+  <g id="crate"></g>
+  <g id="crateFront">
+    <rect x="190" y="548" width="430" height="74" rx="3" fill="#8a5a32"/>
+    <rect x="190" y="548" width="430" height="6" fill="#a06a3c"/>
+    <line x1="190" y1="573" x2="620" y2="573" stroke="#6e4526" stroke-width="2"/>
+    <line x1="190" y1="598" x2="620" y2="598" stroke="#6e4526" stroke-width="2"/>
+    <g fill="#4a2d19"><circle cx="202" cy="560" r="2.5"/><circle cx="608" cy="560" r="2.5"/><circle cx="202" cy="610" r="2.5"/><circle cx="608" cy="610" r="2.5"/></g>
+    <text x="405" y="592" text-anchor="middle" font-family="Schibsted Grotesk, system-ui, sans-serif" font-weight="800" font-size="15" letter-spacing="5" fill="#5a3820" opacity=".85">DİSKETLER</text>
+  </g>
+
+  <!-- Bilgisayar -->
+  <ellipse cx="820" cy="642" rx="230" ry="9" fill="#000" opacity=".3"/>
+  <g id="computer">
+    <rect x="620" y="540" width="400" height="100" rx="6" fill="#d9cdb4"/>
+    <rect x="620" y="540" width="400" height="9" rx="4" fill="#e7ddc8"/>
+    <rect x="620" y="628" width="400" height="12" rx="4" fill="#bfb196"/>
+    <g stroke="#b3a589" stroke-width="2.5" stroke-linecap="round">
+      <line x1="650" y1="600" x2="740" y2="600"/><line x1="650" y1="607" x2="740" y2="607"/><line x1="650" y1="614" x2="740" y2="614"/><line x1="650" y1="621" x2="740" y2="621"/>
+    </g>
+    <text x="650" y="580" font-family="Schibsted Grotesk, system-ui, sans-serif" font-weight="800" font-size="16" letter-spacing="3" fill="#9c8f76">MES-61</text>
+    <rect x="782" y="585" width="30" height="20" rx="3" fill="#c7bba2" stroke="#b3a589"/>
+    <circle cx="828" cy="595" r="3.5" fill="#7bd36b"/>
+    <g id="drive" class="clk" tabindex="-1" role="button" aria-label="Disketi çıkar">
+      <rect x="845" y="558" width="155" height="48" rx="3" fill="#cbbfa5" stroke="#b3a589"/>
+      <rect x="860" y="575" width="130" height="8" rx="2" fill="#2a241c"/>
+      <rect x="958" y="591" width="26" height="8" rx="2" fill="#b9ad93"/>
+      <circle id="driveLed" cx="870" cy="595" r="3.5" fill="#5a4a2a"/>
+    </g>
+    <rect x="650" y="262" width="340" height="278" rx="22" fill="#d9cdb4"/>
+    <rect x="650" y="262" width="340" height="12" rx="6" fill="#e7ddc8"/>
+    <rect x="972" y="280" width="18" height="250" rx="6" fill="#c6b99f"/>
+    <rect x="672" y="282" width="296" height="228" rx="18" fill="#b8aa8e"/>
+    <circle cx="932" cy="526" r="5" fill="#b3a589"/><circle cx="952" cy="526" r="5" fill="#b3a589"/>
+    <rect x="690" y="292" width="260" height="208" rx="14" fill="#0a0603"/>
+    <polygon points="665,640 975,640 990,664 650,664" fill="#cfc3aa"/>
+    <g stroke="#ece3cf" stroke-width="5">
+      <line x1="676" y1="647" x2="964" y2="647" stroke-dasharray="15 3"/>
+      <line x1="671" y1="654" x2="969" y2="654" stroke-dasharray="15 3"/>
+      <line x1="667" y1="661" x2="755" y2="661" stroke-dasharray="15 3"/><line x1="760" y1="661" x2="880" y2="661"/><line x1="885" y1="661" x2="973" y2="661" stroke-dasharray="15 3"/>
+    </g>
+  </g>
+
+  <!-- İletişim notu -->
+  <g id="note" class="clk" tabindex="0" role="button" aria-label="İletişim notu">
+    <g class="hl" transform="rotate(6 1006 362)">
+      <rect x="970" y="330" width="74" height="66" fill="#f2d56b" filter="url(#shadow)"/>
+      <rect x="970" y="330" width="74" height="12" fill="#e6c656"/>
+      <text x="1007" y="367" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="17" fill="#4a3a12">iletişim</text>
+      <text x="1007" y="386" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="13" fill="#6a5a2a">yaz bana!</text>
+    </g>
+  </g>
+
+  <!-- Çay -->
+  <g id="tea" class="clk" tabindex="0" role="button" aria-label="Çay bardağı">
+    <g class="hl">
+      <ellipse cx="1085" cy="640" rx="36" ry="7" fill="#e8e2d6"/>
+      <ellipse cx="1085" cy="638" rx="26" ry="4.5" fill="#d6cebf"/>
+      <path d="M1067 600 C1068 608 1076 611 1076 618 C1076 628 1068 632 1070 638 L1100 638 C1102 632 1094 628 1094 618 C1094 611 1102 608 1103 600 Z" fill="#a8321e" opacity=".92"/>
+      <ellipse cx="1085" cy="600" rx="18" ry="3" fill="#c2462e"/>
+      <path d="M1066 588 C1066 606 1076 610 1076 618 C1076 628 1068 632 1070 638 L1100 638 C1102 632 1094 628 1094 618 C1094 610 1104 606 1104 588 Z" fill="#fff" fill-opacity=".08" stroke="#f4efe6" stroke-opacity=".65" stroke-width="1.5"/>
+      <path d="M1071 594 C1071 604 1078 610 1078 616" stroke="#fff" stroke-opacity=".5" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <line x1="1112" y1="640" x2="1132" y2="634" stroke="#cfc8bb" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <g class="steam" fill="none" stroke="#e9e4da" stroke-width="3" stroke-linecap="round">
+      <path d="M1078 582 c -6 -9 6 -15 0 -25"/><path d="M1088 580 c 6 -9 -6 -15 0 -25"/><path d="M1096 584 c -5 -8 5 -13 0 -21"/>
+    </g>
+  </g>
+
+  <!-- Lamba -->
+  <g id="lamp" class="clk" tabindex="0" role="button" aria-label="Masa lambası" aria-pressed="true">
+    <g class="hl">
+      <ellipse cx="1330" cy="620" rx="48" ry="8" fill="#000" opacity=".3"/>
+      <rect x="1292" y="604" width="76" height="14" rx="6" fill="#2f2f33"/>
+      <path d="M1330 606 L1310 472 L1240 440" stroke="#38383d" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="1310" cy="472" r="8" fill="#2a2a2e"/>
+      <path d="M1196 410 L1262 438 L1238 486 L1170 452 Z" fill="#8A1E3F"/>
+      <path d="M1196 410 L1262 438 L1256 450 L1190 422 Z" fill="#a52a4d"/>
+      <ellipse id="bulb" cx="1204" cy="470" rx="24" ry="8" transform="rotate(27 1204 470)" fill="#ffe2a6"/>
+    </g>
+  </g>
+
+  <!-- Işık katmanları -->
+  <rect x="-800" y="-1400" width="3200" height="2400" fill="url(#vignette)" pointer-events="none"/>
+  <rect id="dark" x="-800" y="-1400" width="3200" height="2400" fill="#04060a" opacity="0" pointer-events="none"/>
+  <g id="lampLight" pointer-events="none">
+    <polygon points="1172,454 1238,486 1330,622 1000,622" fill="url(#cone)"/>
+    <ellipse cx="1150" cy="624" rx="200" ry="26" fill="url(#pool)"/>
+  </g>
+  <ellipse id="crtGlow" cx="820" cy="400" rx="300" ry="230" fill="url(#crtG)" opacity="0" pointer-events="none"/>
+
+  <!-- CRT ekranı -->
+  <g clip-path="url(#screenClip)" pointer-events="none">
+    <rect x="690" y="292" width="260" height="208" fill="url(#screenBg)"/>
+    <g id="scrContent">
+      <rect x="690" y="292" width="260" height="208" fill="none"/>
+      <g id="scr" filter="url(#phos)"></g>
+    </g>
+    <rect x="690" y="292" width="260" height="208" fill="url(#scan)"/>
+    <rect x="690" y="292" width="260" height="208" fill="url(#screenVig)"/>
+    <ellipse cx="760" cy="330" rx="90" ry="34" fill="#fff" opacity=".045"/>
+    <rect id="scrFlash" x="690" y="292" width="260" height="208" fill="#ffd99a" opacity="0"/>
+  </g>
+
+  <g id="fly"></g>
+</svg>
+</div>
+
+<section class="panel" id="panel"></section>
+<p class="sr" id="live" aria-live="polite"></p>
+<div id="toast" role="status"></div>
+
+<div id="intro" role="dialog" aria-modal="true" aria-labelledby="introTitle">
+  <div class="intro-card">
+    <h1 id="introTitle">Muhammed Emin Şeker</h1>
+    <p>Bilgisayar mühendisliği öğrencisiyim, güvenliği saldırı tarafından öğreniyorum. Karadeniz'de yağmurlu bir gece; masamda projelerimin disketleri var. Birini tak, ne yaptığını bilgisayar anlatsın.</p>
+    <div class="intro-acts">
+      <button class="btn" id="enterSound" type="button">Sesli gir</button>
+      <button class="btn ghost" id="enterQuiet" type="button">Sessiz gir</button>
     </div>
-  </section>
-
-  <section class="band" aria-labelledby="basari">
-    <div class="wrap">
-      <h2 class="award" id="basari">Siber Vatan 2026'da yarı finale kaldım.</h2>
-      <p>Ulusal siber güvenlik yarışması Siber Vatan'ın yarı final aşamasına yükseldim ve sertifikamı aldım. Şimdi hedef final.</p>
-    </div>
-  </section>
-
-  <section class="sec wrap" id="projeler" aria-labelledby="projeler-baslik">
-    <h2 id="projeler-baslik">Projeler</h2>
-    <div>
-      <p class="sec-intro">Hepsi Python. Çoğu bir güvenlik sorusundan doğdu; biri de uzun videoları kısaltma derdinden.</p>
-
-      <article class="proj">
-        <h3><a href="https://github.com/muhammedeminsekerr/youtubetoshort">Kliphane</a></h3>
-        <p class="meta">youtubetoshort reposu, şu ana kadarki en eksiksiz projem</p>
-        <p class="summary">Bir YouTube linki yapıştırıyorsun; Kliphane videoyu indiriyor, konuşmayı yazıya döküyor, yapay zekâyla en güçlü anları seçiyor ve bunları altyazılı, dikey kısa videolara çeviriyor. Her şey kendi bilgisayarında çalışıyor, hiçbir video bir yere yüklenmiyor.</p>
-        <ol class="pipeline">
-          <li><strong>İndir</strong><span>yt-dlp videoyu en fazla 1080p kalitede çeker.</span></li>
-          <li><strong>Dinle</strong><span>faster-whisper konuşmayı yerelde, zaman damgalı metne döker.</span></li>
-          <li><strong>Seç</strong><span>Groq ya da Claude API, kancası güçlü klipleri başlangıç ve bitiş zamanlarıyla JSON olarak döndürür.</span></li>
-          <li><strong>Kes</strong><span>ffmpeg her klibi 1080×1920'ye çevirir, bulanık arka plan ve gömülü altyazı ekler.</span></li>
-        </ol>
-        <p class="stack">Python, FastAPI, Jinja2, vanilla JS, ffmpeg, faster-whisper, Groq / Anthropic API</p>
-      </article>
-
-      <article class="proj">
-        <h3><a href="https://github.com/muhammedeminsekerr/phishing-detection">phishing-detection</a></h3>
-        <p class="meta">Makine öğrenmesi, MIT lisanslı</p>
-        <p class="summary">Bir URL'nin oltalama mı yoksa güvenli mi olduğunu, yalnızca adres metnine bakarak tahmin eden bir sınıflandırıcı. Kara listeler sadece zaten bilinen kötü linkleri yakalar; oltalama siteleri ise çoğu zaman birkaç saat yaşar. Bu model daha önce hiç görülmemiş linkleri de yakalamak için URL'nin kendisinden örüntü öğreniyor.</p>
-
-        <figure class="url">
-          <code><mark>http://</mark><mark>guvenli-banka.com@</mark><mark>185.23.7.41</mark>/<mark>login</mark>/<mark>verify</mark></code>
-          <figcaption>Model bu linki metin olarak değil, sayılardan oluşan bir özellik vektörü olarak görüyor:</figcaption>
-          <dl>
-            <dt>http://</dt><dd>HTTPS yok, bağlantı şifrelenmemiş.</dd>
-            <dt>…@</dt><dd>Tarayıcı @ işaretinden öncesini yok sayar; gerçek hedef sonrasındaki adres.</dd>
-            <dt>185.23.7.41</dt><dd>Alan adı yerine çıplak IP adresi.</dd>
-            <dt>login, verify</dt><dd>Şüpheli anahtar kelimeler.</dd>
-            <dt>49 / 4</dt><dd>Karakter uzunluğu ve nokta sayısı.</dd>
-          </dl>
-        </figure>
-
-        <p class="pull">Kaçırılan her oltalama linki başarılı bir saldırı demek. Bu yüzden modeli accuracy'ye göre değil, recall'a göre değerlendiriyorum.</p>
-        <p class="stack">PhiUSIIL veri seti (235.795 etiketli URL), Random Forest, pandas, NumPy, scikit-learn, matplotlib. Sırada tek URL tahmin arayüzü ve model karşılaştırması var.</p>
-      </article>
-
-      <div class="kit">
-        <h3>Güvenlik araç kutusu</h3>
-        <p>Keşiften kriptografiye, sıfırdan yazdığım küçük ve odaklı araçlar.</p>
-        <ul class="tools">
-          <li>
-            <span class="tool-name"><a href="https://github.com/muhammedeminsekerr/port-scanner">port-scanner</a></span>
-            <p>Bir hedefte hangi portların açık olduğunu ve arkalarında hangi servislerin çalıştığını bulur. Her portu ayrı bir thread'de denediği için tek tek beklemekten kat kat hızlı. Güvenlik değerlendirmesinin ilk adımı: kapıları haritalamak.</p>
-          </li>
-          <li>
-            <span class="tool-name">hash-cracker<small>Repo şimdilik özel</small></span>
-            <p>Hash'lenmiş bir değerden asıl şifreyi geri bulmaya çalışır. Saldırganın gözünden şifre güvenliği.</p>
-          </li>
-          <li>
-            <span class="tool-name"><a href="https://github.com/muhammedeminsekerr/password-analyzer">password-analyzer</a></span>
-            <p>Hash cracker'ın tersi: şifreyi kırmak yerine ne kadar dayanıklı olduğunu ölçer. Uzunluğa, karakter çeşitliliğine ve yaygın zayıf kalıplara bakıp zayıf, orta ya da güçlü der ve nasıl iyileştirileceğini söyler.</p>
-          </li>
-          <li>
-            <span class="tool-name"><a href="https://github.com/muhammedeminsekerr/cipher-tool">cipher-tool</a></span>
-            <p>Caesar ve Vigenère şifrelerinin harici kütüphanesiz Python uygulaması. Büyük/küçük harfi korur, harf olmayanlara dokunmaz. Sayfanın başındaki kaydırıcı onun mantığıyla çalışıyor.</p>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec wrap" id="yetkinlikler" aria-labelledby="yetkinlik-baslik">
-    <h2 id="yetkinlik-baslik">Yetkinlikler</h2>
-    <div>
-      <div class="skills">
-        <div>
-          <h3>Diller</h3>
-          <ul><li>Python</li><li>C</li><li>Java</li><li>Bash</li></ul>
-        </div>
-        <div>
-          <h3>Güvenlik araçları</h3>
-          <ul><li>Kali Linux</li><li>Wireshark</li><li>Burp Suite</li><li>Nmap</li></ul>
-        </div>
-        <div>
-          <h3>Alanlar</h3>
-          <ul><li>Ağ güvenliği</li><li>Kriptografi</li><li>Web güvenliği</li><li>Linux</li><li>Yapay zekâ ve ML temelleri</li></ul>
-        </div>
-      </div>
-
-      <div class="later">
-        <div>
-          <h3>CTF</h3>
-          <p>TryHackMe ve PicoCTF'te aktifim, sırada HackTheBox var. En çok ağ, kriptografi, web exploitation, Linux ve OSINT sorularıyla uğraşıyorum.</p>
-        </div>
-        <div>
-          <h3>Şu sıralar</h3>
-          <ul>
-            <li>TryHackMe Jr Penetration Tester yolu</li>
-            <li>CompTIA Security+ hazırlığı</li>
-            <li>OWASP Top 10 ile web uygulama güvenliği</li>
-            <li>Yeni, yapay zekâ destekli güvenlik araçları</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="contact wrap" id="iletisim" aria-labelledby="iletisim-baslik">
-    <img src="https://avatars.githubusercontent.com/u/234917073?v=4" alt="Muhammed Emin Şeker" width="176" height="176" loading="lazy">
-    <div>
-      <h2 id="iletisim-baslik">İletişim</h2>
-      <p>Staj, CTF takımı ya da ortak bir proje için yazabilirsin.</p>
-      <a class="mail" href="mailto:muhammedeminsekerr@gmail.com">muhammedeminsekerr@gmail.com</a>
-      <ul class="elsewhere">
-        <li><a href="https://github.com/muhammedeminsekerr">GitHub</a></li>
-        <li><a href="https://www.linkedin.com/in/muhammed-emin-%C5%9Feker-b94937333/">LinkedIn</a></li>
-        <li>Trabzon</li>
-      </ul>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">
-    <p>© 2026 Muhammed Emin Şeker</p>
-    <p><em>The quieter you become, the more you are able to hear.</em></p>
+    <p class="intro-note">Seslerin hepsi tarayıcıda anlık üretiliyor: yağmur, gök gürültüsü, disket sürücüsü, klavye, çay bardağı ve arkada klasik piyano.</p>
   </div>
-</footer>
+</div>
+
+<noscript>
+  <ul>
+    <li><a href="https://github.com/muhammedeminsekerr/youtubetoshort">Kliphane</a></li>
+    <li><a href="https://github.com/muhammedeminsekerr/phishing-detection">phishing-detection</a></li>
+    <li><a href="https://github.com/muhammedeminsekerr/port-scanner">port-scanner</a></li>
+    <li><a href="https://github.com/muhammedeminsekerr/password-analyzer">password-analyzer</a></li>
+    <li><a href="https://github.com/muhammedeminsekerr/cipher-tool">cipher-tool</a></li>
+    <li><a href="mailto:muhammedeminsekerr@gmail.com">muhammedeminsekerr@gmail.com</a></li>
+  </ul>
+</noscript>
 
 <script>
 (function () {
-  var hero = document.getElementById('hero');
-  var lines = Array.prototype.slice.call(document.querySelectorAll('.name .line'));
-  var slider = document.getElementById('shift');
-  var out = document.getElementById('shiftOut');
-  var abcEnc = document.getElementById('abcEnc');
-  var ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  var KEY = 61 % 26; // Trabzon plakası, mod 26 = 9
+  'use strict';
+  var NS = 'http://www.w3.org/2000/svg';
+  var AMBER = '#ffb547';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function (id) { return document.getElementById(id); };
+  var svg = $('scene'), crate = $('crate'), fly = $('fly'), scr = $('scr'), scrContent = $('scrContent');
+  var panel = $('panel'), live = $('live');
 
-  // cipher-tool ile aynı formül: (harf - taban + kaydırma) % 26 + taban
-  function caesar(text, shift) {
-    return text.replace(/[A-Za-z]/g, function (ch) {
-      var base = ch <= 'Z' ? 65 : 97;
-      return String.fromCharCode((ch.charCodeAt(0) - base + shift + 26) % 26 + base);
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, reduce ? 0 : ms); }); }
+
+  /* ---------- İçerik ---------- */
+  var P = [
+    { title: 'Kliphane', label: ['Kliphane'], body: '#b8432f', file: 'KLIPHANE.EXE', screenTitle: 'KLİPHANE',
+      cat: 'Yapay zekâ ve otomasyon',
+      desc: "Bir YouTube linki yapıştırıyorsun; Kliphane videoyu indiriyor, konuşmayı yazıya döküyor, yapay zekâyla en güçlü anları seçiyor ve bunları altyazılı, dikey kısa videolara çeviriyor. Her şey kendi bilgisayarında çalışıyor, hiçbir video bir yere yüklenmiyor.",
+      stack: ['Python', 'FastAPI', 'yt-dlp', 'faster-whisper', 'Groq / Claude API', 'ffmpeg'],
+      url: 'https://github.com/muhammedeminsekerr/youtubetoshort',
+      screen: ['indir > dinle >', 'seç > kes', '9:16 + altyazı'] },
+    { title: 'phishing-detection', label: ['phishing', 'detection'], body: '#2f6f8f', file: 'PHISHING.PY', screenTitle: 'phishing-detection',
+      cat: 'Makine öğrenmesi',
+      desc: "Bir URL'nin oltalama mı yoksa güvenli mi olduğunu yalnızca adres metnine bakarak tahmin eden sınıflandırıcı. 235.795 etiketli URL ile eğitilmiş bir Random Forest. Kaçırılan her oltalama linki başarılı bir saldırı demek; bu yüzden modeli accuracy'ye göre değil, recall'a göre değerlendiriyorum.",
+      stack: ['Python', 'pandas', 'NumPy', 'scikit-learn', 'MIT lisansı'],
+      url: 'https://github.com/muhammedeminsekerr/phishing-detection',
+      screen: ['235.795 URL', 'Random Forest', 'ölçüt: recall'] },
+    { title: 'port-scanner', label: ['port', 'scanner'], body: '#3f7a4a', file: 'PORTSCAN.PY', screenTitle: 'port-scanner',
+      cat: 'Ağ güvenliği ve keşif',
+      desc: "Hedefteki açık portları ve arkalarında çalışan servisleri bulur. Her portu ayrı bir thread'de denediği için tek tek beklemekten kat kat hızlı. Bir güvenlik değerlendirmesinin ilk adımı: kapıları haritalamak.",
+      stack: ['Python', 'threading', 'socket'],
+      url: 'https://github.com/muhammedeminsekerr/port-scanner',
+      screen: ['örnek tarama:', '22/tcp  açık  ssh', '80/tcp  açık  http'] },
+    { title: 'password-analyzer', label: ['password', 'analyzer'], body: '#b8832a', file: 'PASSWD.PY', screenTitle: 'password-analyzer',
+      cat: 'Kimlik doğrulama güvenliği',
+      desc: "Hash cracker'ın tersi: şifreyi kırmak yerine ne kadar dayanıklı olduğunu ölçer. Uzunluğa, karakter çeşitliliğine ve yaygın zayıf kalıplara bakıp zayıf, orta ya da güçlü der; nasıl iyileştirileceğini de söyler.",
+      stack: ['Python'],
+      url: 'https://github.com/muhammedeminsekerr/password-analyzer',
+      screen: ['[+] uzunluk', '[+] çeşitlilik', '[-] yaygın kalıp'] },
+    { title: 'cipher-tool', label: ['cipher', 'tool'], body: '#8A1E3F', file: 'CIPHER.PY', screenTitle: 'cipher-tool',
+      cat: 'Kriptografi',
+      desc: "Caesar ve Vigenère şifrelerinin harici kütüphanesiz Python uygulaması. Büyük ve küçük harfi korur, harf olmayan karakterlere dokunmaz. Kriptografiye attığım ilk adım.",
+      stack: ['Python', 'Caesar', 'Vigenère'],
+      url: 'https://github.com/muhammedeminsekerr/cipher-tool',
+      screen: ['MERHABA', 'kaydır 9 >', 'VNAQJKJ'] },
+    { title: 'hash-cracker', label: ['hash', 'cracker'], body: '#3d4048', file: 'HASHCRK.PY', screenTitle: 'hash-cracker',
+      cat: 'Parola güvenliği',
+      desc: "Hash'lenmiş bir değerden asıl şifreyi geri bulmaya çalışır: saldırganın gözünden şifre güvenliği. password-analyzer'ın öbür yüzü. Repo şimdilik özel.",
+      stack: ['Python', 'hashlib'],
+      private: true,
+      screen: ['5f4dcc3b5aa765d6...', '> password', '(özel repo)'] }
+  ];
+  var INFO = {
+    about: { title: 'Muhammed Emin Şeker', body: '#8A1E3F', file: 'HAKKIMDA.TXT', screenTitle: 'HAKKIMDA', screenCat: 'Bilgisayar müh., 3. sınıf',
+      cat: 'Recep Tayyip Erdoğan Üniversitesi, Bilgisayar Mühendisliği 3. sınıf',
+      desc: "Güvenliği saldırı tarafından öğreniyorum: bir şeyin nasıl kırıldığını anlamak için o aracı kendim yazıyorum. Siber Vatan 2026'da yarı finale kaldım ve sertifikamı aldım. TryHackMe ve PicoCTF'te aktifim; şu sıralar Jr Penetration Tester yolu ve Security+ hazırlığıyla uğraşıyorum.",
+      stack: ['Python', 'C', 'Java', 'Bash', 'Kali Linux', 'Wireshark', 'Burp Suite', 'Nmap'],
+      links: [{ t: 'LinkedIn', u: 'https://www.linkedin.com/in/muhammed-emin-%C5%9Feker-b94937333/' }, { t: 'GitHub', u: 'https://github.com/muhammedeminsekerr' }],
+      screen: ['SİBER VATAN 2026', 'YARI FİNALİST', 'RTEÜ / 3. sınıf'] },
+    contact: { title: 'İletişim', body: '#f2d56b', file: 'ILETISIM.TXT', screenTitle: 'İLETİŞİM',
+      cat: 'Trabzon',
+      desc: "Staj, CTF takımı ya da ortak bir proje için yazabilirsin. E-postalara genelde aynı gün dönüyorum.",
+      stack: [],
+      links: [{ t: 'E-posta gönder', u: 'mailto:muhammedeminsekerr@gmail.com' }, { t: 'LinkedIn', u: 'https://www.linkedin.com/in/muhammed-emin-%C5%9Feker-b94937333/' }, { t: 'GitHub', u: 'https://github.com/muhammedeminsekerr' }],
+      screen: ['muhammedeminsekerr', '@gmail.com', 'Trabzon, TR'] }
+  };
+
+  /* ---------- Ses motoru (Web Audio, tamamen sentez) ---------- */
+  var ctx = null, master = null, musicBus = null, noiseBuf = null, soundOn = true, musicVol = .6;
+  function initAudio() {
+    if (ctx) { if (ctx.state === 'suspended') ctx.resume(); return; }
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    ctx = new AC();
+    var out = ctx.createGain(); out.connect(ctx.destination);
+    master = ctx.createGain(); master.gain.value = soundOn ? .9 : 0; master.connect(out);
+    musicBus = ctx.createGain(); musicBus.gain.value = musicVol; musicBus.connect(out);
+    var conv = ctx.createConvolver(), wet = ctx.createGain();
+    conv.buffer = impulse(2.8); wet.gain.value = .3;
+    musicBus.connect(conv).connect(wet).connect(out);
+    document.addEventListener('visibilitychange', function () { if (document.hidden) ctx.suspend(); else ctx.resume(); });
+    var len = ctx.sampleRate * 2;
+    noiseBuf = ctx.createBuffer(1, len, ctx.sampleRate);
+    var d = noiseBuf.getChannelData(0);
+    for (var i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+    startRain();
+  }
+  function ok() { return ctx && soundOn; }
+  function impulse(sec) {
+    var len = Math.floor(ctx.sampleRate * sec), b = ctx.createBuffer(2, len, ctx.sampleRate);
+    for (var c = 0; c < 2; c++) { var d = b.getChannelData(c); for (var i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.6); }
+    return b;
+  }
+
+  /* ---------- Klasik müzik (kamu malı eserler, sentez piyano) ---------- */
+  function mn(n) {
+    var r = /^([A-G])(#|b)?(\d)$/.exec(n);
+    return 12 * (+r[3] + 1) + { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 }[r[1]] + (r[2] === '#' ? 1 : r[2] === 'b' ? -1 : 0);
+  }
+  function buildBach() {
+    var bars = [
+      ['C4','E4','G4','C5','E5'], ['C4','D4','A4','D5','F5'], ['B3','D4','G4','D5','F5'], ['C4','E4','G4','C5','E5'],
+      ['C4','E4','A4','E5','A5'], ['C4','D4','F#4','A4','D5'], ['B3','D4','G4','D5','G5'], ['B3','C4','E4','G4','C5'],
+      ['A3','C4','E4','G4','C5'], ['D3','A3','D4','F#4','C5'], ['G3','B3','D4','G4','B4'], ['G3','Bb3','E4','G4','C#5'],
+      ['F3','A3','D4','A4','D5'], ['F3','Ab3','D4','F4','B4'], ['E3','G3','C4','G4','C5'], ['E3','F3','A3','C4','F4'],
+      ['D3','F3','A3','C4','F4'], ['G2','D3','G3','B3','F4'], ['C3','E3','G3','C4','E4']
+    ];
+    var ev = [];
+    bars.forEach(function (b, i) {
+      var n = b.map(mn);
+      for (var h = 0; h < 2; h++) {
+        var s0 = i * 4 + h * 2;
+        ev.push([s0, n[0], 2, .55]);
+        ev.push([s0 + .25, n[1], 1.75, .45]);
+        [2, 3, 4, 2, 3, 4].forEach(function (k, j) { ev.push([s0 + .5 + j * .25, n[k], .5, .4]); });
+      }
+    });
+    return { bpm: 64, length: bars.length * 4, events: ev };
+  }
+  function buildSatie() {
+    var ev = [];
+    for (var b = 0; b < 20; b++) {
+      var t = b * 3, G = b % 2 === 0;
+      ev.push([t, mn(G ? 'G2' : 'D2'), 3, .42]);
+      (G ? ['B3', 'D4', 'F#4'] : ['A3', 'C#4', 'F#4']).forEach(function (n) { ev.push([t + 1, mn(n), 2, .27]); });
+    }
+    [[4,1,'F#5',1],[4,2,'A5',1],[5,0,'G5',1],[5,1,'F#5',1],[5,2,'C#5',1],[6,0,'B4',1],[6,1,'C#5',1],[6,2,'D5',1],[7,0,'A4',3],[8,0,'F#4',12],
+     [12,1,'F#5',1],[12,2,'A5',1],[13,0,'G5',1],[13,1,'F#5',1],[13,2,'C#5',1],[14,0,'B4',1],[14,1,'C#5',1],[14,2,'D5',1],[15,0,'A4',3],[16,0,'C#5',3],[17,0,'F#5',3],[18,0,'E5',6]]
+      .forEach(function (x) { ev.push([x[0] * 3 + x[1], mn(x[2]), x[3], .5]); });
+    return { bpm: 70, length: 60, events: ev };
+  }
+  function buildElise() {
+    function lh(a, b, c) { return [[0, a, 6, .34], [1, b, 5, .3], [2, c, 4, .3]]; }
+    var T  = [[0,'E5',1,.5],[1,'D#5',1,.47],[2,'E5',1,.5],[3,'B4',1,.46],[4,'D5',1,.46],[5,'C5',1,.48]];
+    var A  = [[0,'A4',2,.5]].concat(lh('A2','E3','A3'), [[3,'C4',1,.42],[4,'E4',1,.42],[5,'A4',1,.45]]);
+    var B  = [[0,'B4',2,.5]].concat(lh('E2','E3','G#3'), [[3,'E4',1,.42],[4,'G#4',1,.42],[5,'B4',1,.45]]);
+    var C  = [[0,'C5',2,.5]].concat(lh('A2','E3','A3'), [[3,'E4',1,.42],[4,'E5',1,.5],[5,'D#5',1,.47]]);
+    var B2 = [[0,'B4',2,.5]].concat(lh('E2','E3','G#3'), [[3,'E4',1,.42],[4,'C5',1,.45],[5,'B4',1,.45]]);
+    var E1 = [[0,'A4',3,.5]].concat(lh('A2','E3','A3'), [[4,'E5',1,.5],[5,'D#5',1,.47]]);
+    var E2 = [[0,'A4',2,.5]].concat(lh('A2','E3','A3'), [[3,'B4',1,.45],[4,'C5',1,.46],[5,'D5',1,.48]]);
+    var M9  = [[0,'E5',3,.52]].concat(lh('C3','G3','C4'), [[3,'G4',1,.42],[4,'F5',1,.48],[5,'E5',1,.48]]);
+    var M10 = [[0,'D5',3,.5]].concat(lh('G2','G3','B3'), [[3,'F4',1,.42],[4,'E5',1,.48],[5,'D5',1,.46]]);
+    var M11 = [[0,'C5',3,.5]].concat(lh('A2','E3','A3'), [[3,'E4',1,.42],[4,'D5',1,.46],[5,'C5',1,.46]]);
+    var M12 = [[0,'B4',3,.5]].concat(lh('E2','E3','G#3'), [[3,'E4',1,.42],[4,'E5',1,.5],[5,'D#5',1,.47]]);
+    var seq = [T, A, B, C, T, A, B2, E1, T, A, B, C, T, A, B2, E2, M9, M10, M11, M12];
+    var ev = [];
+    seq.forEach(function (bar, i) { bar.forEach(function (x) { ev.push([(i * 6 + x[0]) * .5, mn(x[1]), x[2] * .5, x[3]]); }); });
+    return { bpm: 138, length: seq.length * 3, events: ev };
+  }
+  var TRACKS = {
+    bach:  { name: 'Bach, Prelüd Do majör', build: buildBach },
+    satie: { name: 'Satie, Gymnopédie No. 1', build: buildSatie },
+    elise: { name: 'Beethoven, Für Elise', build: buildElise }
+  };
+  var mus = { key: '', tr: null, idx: 0, start: 0, timer: null, out: null };
+  function pianoNote(t, midi, dur, v) {
+    var f = 440 * Math.pow(2, (midi - 69) / 12), peak = .2 * v, end = t + Math.max(.6, dur) + 1.2;
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(.0001, t);
+    g.gain.exponentialRampToValueAtTime(peak, t + .006);
+    g.gain.exponentialRampToValueAtTime(peak * .35, t + .4);
+    g.gain.exponentialRampToValueAtTime(.0001, end);
+    var lp = ctx.createBiquadFilter();
+    lp.type = 'lowpass';
+    lp.frequency.setValueAtTime(Math.min(7000, f * 7), t);
+    lp.frequency.exponentialRampToValueAtTime(Math.min(2600, f * 3), t + .6);
+    var o1 = ctx.createOscillator(), o2 = ctx.createOscillator(), o3 = ctx.createOscillator(), g2 = ctx.createGain(), g3 = ctx.createGain();
+    o1.type = 'triangle'; o1.frequency.value = f;
+    o2.type = 'sine'; o2.frequency.value = f * 2; g2.gain.value = .22;
+    o3.type = 'sine'; o3.frequency.value = f * 1.002; g3.gain.value = .5;
+    o1.connect(lp); o2.connect(g2).connect(lp); o3.connect(g3).connect(lp);
+    lp.connect(g).connect(mus.out);
+    [o1, o2, o3].forEach(function (o) { o.start(t); o.stop(end + .05); });
+  }
+  function scheduleMusic() {
+    var tr = mus.tr; if (!tr || !ctx) return;
+    var spb = 60 / tr.bpm, horizon = ctx.currentTime + .45;
+    for (var guard = 0; guard < 400; guard++) {
+      if (mus.idx >= tr.events.length) { mus.idx = 0; mus.start += tr.length * spb; }
+      var e = tr.events[mus.idx], t = mus.start + e[0] * spb;
+      if (t > horizon) break;
+      if (t >= ctx.currentTime - .03) pianoNote(t, e[1], e[2] * spb, e[3]);
+      mus.idx++;
+    }
+  }
+  function stopMusic() {
+    clearInterval(mus.timer); mus.timer = null; mus.tr = null;
+    if (mus.out && ctx) {
+      var o = mus.out;
+      o.gain.setTargetAtTime(.0001, ctx.currentTime, .15);
+      setTimeout(function () { o.disconnect(); }, 1500);
+    }
+    mus.out = null;
+  }
+  function setMusic(key, announce) {
+    mus.key = key || '';
+    if (mus.key) initAudio();
+    stopMusic();
+    if (mus.key && ctx) {
+      var def = TRACKS[mus.key];
+      if (!def.data) def.data = def.build();
+      def.data.events.sort(function (a, b) { return a[0] - b[0]; });
+      mus.tr = def.data; mus.idx = 0; mus.start = ctx.currentTime + .2;
+      mus.out = ctx.createGain(); mus.out.gain.value = 1; mus.out.connect(musicBus);
+      scheduleMusic();
+      mus.timer = setInterval(scheduleMusic, 60);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('input[name="mus"]'), function (r) { r.checked = r.value === mus.key; });
+    var light = document.getElementById('radioLight'), needle = document.getElementById('radioNeedle');
+    if (light) light.setAttribute('fill', mus.key ? '#ffb547' : '#4a3020');
+    if (needle) { var pos = { '': 1410, bach: 1414, satie: 1420, elise: 1426 }[mus.key]; needle.setAttribute('x1', pos); needle.setAttribute('x2', pos); }
+    if (announce) announce(mus.key ? 'Çalıyor: ' + TRACKS[mus.key].name : 'Müzik kapandı');
+    if (typeof updateSnd === 'function') updateSnd();
+  }
+  function T() { return ctx.currentTime; }
+  function noise() { var s = ctx.createBufferSource(); s.buffer = noiseBuf; s.loop = true; s.playbackRate.value = .8 + Math.random() * .4; return s; }
+  function env(t, a, peak, d) {
+    var g = ctx.createGain();
+    g.gain.setValueAtTime(.0001, t);
+    g.gain.exponentialRampToValueAtTime(peak, t + a);
+    g.gain.exponentialRampToValueAtTime(.0001, t + a + d);
+    return g;
+  }
+  function burst(o) {
+    var t = o.t || T(), a = o.a || .002, d = o.d || .05;
+    var s = noise(), f = ctx.createBiquadFilter();
+    f.type = o.type || 'bandpass'; f.frequency.value = o.f || 2000; f.Q.value = o.q || 1;
+    s.connect(f).connect(env(t, a, o.peak || .2, d)).connect(master);
+    s.start(t, Math.random()); s.stop(t + a + d + .05);
+  }
+  function tone(o) {
+    var t = o.t || T(), a = o.a || .005, d = o.d || .2;
+    var osc = ctx.createOscillator();
+    osc.type = o.type || 'sine';
+    osc.frequency.setValueAtTime(o.f, t);
+    if (o.f2) osc.frequency.exponentialRampToValueAtTime(o.f2, t + a + d);
+    osc.connect(env(t, a, o.peak || .1, d)).connect(master);
+    osc.start(t); osc.stop(t + a + d + .05);
+  }
+  function startRain() {
+    var t = T();
+    var s = noise(), hp = ctx.createBiquadFilter(), lp = ctx.createBiquadFilter(), g = ctx.createGain();
+    hp.type = 'highpass'; hp.frequency.value = 380; lp.type = 'lowpass'; lp.frequency.value = 1700;
+    g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.075, t + 3);
+    s.connect(hp).connect(lp).connect(g).connect(master); s.start();
+    var s2 = noise(), lp2 = ctx.createBiquadFilter(), g2 = ctx.createGain();
+    lp2.type = 'lowpass'; lp2.frequency.value = 260;
+    g2.gain.setValueAtTime(.0001, t); g2.gain.exponentialRampToValueAtTime(.11, t + 3);
+    s2.connect(lp2).connect(g2).connect(master); s2.start();
+    (function drop() {
+      if (ok() && document.visibilityState === 'visible') burst({ f: 1800 + Math.random() * 3800, q: 9, peak: .012 + Math.random() * .03, d: .02 + Math.random() * .03 });
+      setTimeout(drop, 45 + Math.random() * 190);
+    })();
+  }
+  var S = {
+    tick: function () { if (!ok()) return; tone({ f: 1250 + Math.random() * 300, type: 'triangle', a: .002, peak: .045, d: .05 }); },
+    whoosh: function () {
+      if (!ok()) return;
+      var t = T(), s = noise(), f = ctx.createBiquadFilter();
+      f.type = 'bandpass'; f.Q.value = 1.3;
+      f.frequency.setValueAtTime(350, t); f.frequency.exponentialRampToValueAtTime(2600, t + .4);
+      s.connect(f).connect(env(t, .08, .2, .36)).connect(master); s.start(t); s.stop(t + .6);
+    },
+    clack: function () {
+      if (!ok()) return;
+      var t = T();
+      burst({ t: t, f: 2200, q: 2.5, peak: .4, d: .035 });
+      burst({ t: t + .055, f: 1400, q: 3, peak: .25, d: .03 });
+      tone({ t: t, f: 120, f2: 55, type: 'triangle', peak: .35, d: .09 });
+    },
+    seek: function (dur) {
+      if (!ok()) return;
+      dur = dur || .9;
+      var t = T() + .08, n = Math.floor(dur / .05);
+      for (var i = 0; i < n; i++) tone({ t: t + i * .05 + Math.random() * .012, f: 90 + Math.random() * 130, type: 'square', a: .001, peak: .03, d: .018 });
+      var o = ctx.createOscillator(), lp = ctx.createBiquadFilter(), g = ctx.createGain();
+      o.type = 'sawtooth'; o.frequency.value = 58; lp.type = 'lowpass'; lp.frequency.value = 260;
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.05, t + .1);
+      g.gain.setValueAtTime(.05, t + dur - .1); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+      o.connect(lp).connect(g).connect(master); o.start(t); o.stop(t + dur + .05);
+    },
+    crtOn: function () {
+      if (!ok()) return;
+      var t = T();
+      tone({ t: t, f: 62, f2: 34, type: 'sine', a: .01, peak: .45, d: .6 });
+      burst({ t: t, f: 4200, q: .7, type: 'highpass', peak: .07, d: .25 });
+      tone({ t: t + .05, f: 7600, type: 'sine', a: .25, peak: .005, d: 1.4 });
+    },
+    type: function () { if (!ok()) return; burst({ f: 2600 + Math.random() * 1800, q: 1.5, peak: .05 + Math.random() * .04, d: .012 }); },
+    chime: function () {
+      if (!ok()) return;
+      var t = T();
+      tone({ t: t, f: 659, type: 'square', peak: .03, d: .09 });
+      tone({ t: t + .09, f: 988, type: 'square', peak: .03, d: .16 });
+    },
+    eject: function () {
+      if (!ok()) return;
+      var t = T();
+      burst({ t: t, f: 1700, q: 2, peak: .35, d: .04 });
+      tone({ t: t + .02, f: 170, f2: 430, type: 'sine', a: .005, peak: .12, d: .16 });
+    },
+    clink: function () {
+      if (!ok()) return;
+      var t = T();
+      tone({ t: t, f: 2650, a: .002, peak: .07, d: .9 });
+      tone({ t: t, f: 3980, a: .002, peak: .045, d: .6 });
+      tone({ t: t, f: 5310, a: .002, peak: .03, d: .45 });
+      tone({ t: t + .13, f: 2710, a: .002, peak: .04, d: .6 });
+    },
+    click: function () {
+      if (!ok()) return;
+      var t = T();
+      burst({ t: t, f: 3600, q: 3, peak: .25, d: .012 });
+      tone({ t: t, f: 220, f2: 120, type: 'triangle', peak: .12, d: .03 });
+    },
+    paper: function () { if (!ok()) return; burst({ f: 3000, q: .6, peak: .1, d: .18 }); burst({ t: T() + .12, f: 2400, q: .6, peak: .07, d: .14 }); },
+    thunder: function () {
+      if (!ok()) return;
+      var t = T(), s = noise(), lp = ctx.createBiquadFilter(), g = ctx.createGain();
+      lp.type = 'lowpass';
+      lp.frequency.setValueAtTime(520, t); lp.frequency.exponentialRampToValueAtTime(90, t + 4);
+      g.gain.setValueAtTime(.0001, t);
+      g.gain.exponentialRampToValueAtTime(.5, t + .15);
+      g.gain.exponentialRampToValueAtTime(.22, t + .8);
+      g.gain.exponentialRampToValueAtTime(.38, t + 1.25);
+      g.gain.exponentialRampToValueAtTime(.0001, t + 4.6);
+      s.connect(lp).connect(g).connect(master); s.start(t); s.stop(t + 4.7);
+    }
+  };
+
+  /* ---------- Animasyon yardımcıları ---------- */
+  var ease = {
+    io: function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; },
+    in: function (t) { return t * t; },
+    out: function (t) { return 1 - (1 - t) * (1 - t); },
+    lin: function (t) { return t; }
+  };
+  function tween(dur, fn, e) {
+    e = e || ease.io;
+    return new Promise(function (res) {
+      if (reduce) { fn(1); res(); return; }
+      var t0 = performance.now();
+      (function f(now) {
+        var p = Math.min(1, (now - t0) / dur);
+        fn(e(p));
+        if (p < 1) requestAnimationFrame(f); else res();
+      })(t0);
     });
   }
+  function lerp(a, b, p) { return a + (b - a) * p; }
+  function mix(a, b, p) { return { x: lerp(a.x, b.x, p), y: lerp(a.y, b.y, p), r: lerp(a.r, b.r, p), sx: lerp(a.sx, b.sx, p), sy: lerp(a.sy, b.sy, p) }; }
+  function arc(a, b, p, h) { var s = mix(a, b, p); s.y += h * Math.sin(Math.PI * p); return s; }
+  function place(g, s) { g.setAttribute('transform', 'translate(' + s.x + ' ' + s.y + ') rotate(' + s.r + ') scale(' + s.sx + ' ' + s.sy + ')'); }
 
-  function render(shift) {
-    lines.forEach(function (el) { el.textContent = caesar(el.dataset.plain, shift); });
-    out.value = shift;
-    out.textContent = shift;
-    abcEnc.textContent = caesar(ABC, shift);
-    hero.classList.toggle('is-cipher', shift !== 0);
-  }
-
-  var timer = null;
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (reduce) {
-    render(0);
-  } else {
-    slider.value = KEY;
-    render(KEY);
-    var step = function () {
-      var v = Number(slider.value);
-      if (v <= 0) return;
-      v -= 1;
-      slider.value = v;
-      render(v);
-      timer = setTimeout(step, v > 2 ? 110 : 190);
-    };
-    timer = setTimeout(step, 1100);
-  }
-
-  slider.addEventListener('input', function () {
-    clearTimeout(timer);
-    render(Number(slider.value));
+  /* ---------- Disketler ---------- */
+  var SLOT = { x: 925, y: 579 }, ABOVE = { x: 925, y: 455, r: 0, sx: 1.08, sy: 1.08 }, IN = { x: 925, y: 579, r: 0, sx: 1.12, sy: .08 };
+  var ROT = [-5, 3, -2, 4, -3, 2];
+  var D = P.map(function (p, i) {
+    var g = el('g', { 'class': 'disk', tabindex: 0, role: 'button', 'aria-label': p.title + ' disketini bilgisayara tak' }, crate);
+    var lift = el('g', { 'class': 'lift' }, g);
+    el('rect', { x: -42, y: -44, width: 84, height: 88, rx: 4, fill: p.body, filter: 'url(#shadow)' }, lift);
+    el('rect', { x: -42, y: -44, width: 84, height: 5, rx: 2, fill: '#fff', opacity: .12 }, lift);
+    el('rect', { x: -42, y: 37, width: 84, height: 7, rx: 3, fill: '#000', opacity: .2 }, lift);
+    el('rect', { x: -33, y: -37, width: 66, height: 43, rx: 2, fill: '#f1ead9' }, lift);
+    el('rect', { x: -33, y: -37, width: 66, height: 6, rx: 1, fill: p.body, opacity: .55 }, lift);
+    p.label.forEach(function (t, k) {
+      var y = p.label.length === 1 ? -9 : (k === 0 ? -16 : -2);
+      var tx = el('text', { x: 0, y: y, 'text-anchor': 'middle', 'font-size': 14, 'class': 'label-t' }, lift);
+      tx.textContent = t;
+    });
+    var mb = el('text', { x: 28, y: 3, 'text-anchor': 'end', 'font-size': 6.5, fill: '#2a2018', opacity: .45, 'font-family': 'Schibsted Grotesk, sans-serif' }, lift);
+    mb.textContent = '1.44 MB';
+    el('rect', { x: -20, y: 11, width: 40, height: 31, rx: 1, fill: '#b7bbc2' }, lift);
+    el('rect', { x: -20, y: 11, width: 40, height: 3, fill: '#d6d9de' }, lift);
+    el('rect', { x: -3, y: 17, width: 11, height: 19, fill: '#4a4d55' }, lift);
+    el('rect', { x: 31, y: 34, width: 6, height: 6, fill: '#000', opacity: .35 }, lift);
+    el('rect', { 'class': 'ring', x: -48, y: -50, width: 96, height: 100, rx: 8, fill: 'none', stroke: AMBER, 'stroke-width': 3 }, lift);
+    var home = { x: 240 + i * 66, y: 540, r: ROT[i], sx: 1, sy: 1 };
+    place(g, home);
+    g.addEventListener('click', function () { insert(i); });
+    g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); insert(i); } });
+    g.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse' && !busy) S.tick(); });
+    return { p: p, g: g, home: home, i: i };
   });
+
+  /* ---------- CRT ekran ---------- */
+  var cursorTimer = null, cursorNode = null, screenTimer = null;
+  function clearScreen() { clearTimeout(screenTimer); stopCursor(); while (scr.firstChild) scr.removeChild(scr.firstChild); }
+  function setScreen(lines, typed) {
+    clearScreen();
+    var y = 330, nodes = [];
+    lines.forEach(function (l) {
+      var size = l.size || 20;
+      if (l.gap) y += l.gap;
+      var tx = el('text', { x: 706, y: y, 'font-size': size, opacity: l.op == null ? 1 : l.op }, scr);
+      nodes.push([tx, l.t]);
+      y += l.lh || size * 1.15;
+    });
+    function fitLine(n) { try { var w = n.getComputedTextLength(); if (w > 228) n.setAttribute('font-size', (parseFloat(n.getAttribute('font-size')) * 228 / w).toFixed(1)); } catch (e) {} }
+    if (!typed || reduce) { nodes.forEach(function (n) { n[0].textContent = n[1]; fitLine(n[0]); }); return Promise.resolve(nodes); }
+    return new Promise(function (res) {
+      var li = 0, ci = 0;
+      (function step() {
+        if (li >= nodes.length) { res(nodes); return; }
+        var n = nodes[li];
+        ci++;
+        n[0].textContent = n[1].slice(0, ci);
+        if (ci % 2 === 0) S.type();
+        if (ci >= n[1].length) { li++; ci = 0; }
+        screenTimer = setTimeout(step, ci === 0 ? 120 : 28);
+      })();
+    });
+  }
+  function startCursor(node) {
+    stopCursor();
+    cursorNode = el('tspan', {}, node);
+    cursorNode.textContent = '_';
+    cursorTimer = setInterval(function () { cursorNode.textContent = cursorNode.textContent === '_' ? '\u00a0' : '_'; }, 520);
+  }
+  function stopCursor() { clearInterval(cursorTimer); cursorTimer = null; }
+  var IDLE = [
+    { t: 'MES-61 BIOS 6.1', size: 20 },
+    { t: '640K BELLEK .... TAMAM', size: 18 },
+    { t: 'A: SÜRÜCÜ ...... HAZIR', size: 18 },
+    { t: '', size: 18 },
+    { t: 'Disket tak', size: 24 }
+  ];
+  function screenIdle(typed) {
+    return setScreen(IDLE, typed).then(function (nodes) { startCursor(nodes[nodes.length - 1][0]); });
+  }
+  function blip() {
+    scrContent.classList.remove('blip'); void scrContent.getBoundingClientRect(); scrContent.classList.add('blip');
+    var f = $('scrFlash');
+    tween(260, function (p) { f.setAttribute('opacity', .35 * (1 - p)); }, ease.out);
+  }
+  function screenLoad(file) {
+    setScreen([{ t: 'A:\\> TAKILDI', size: 20 }, { t: 'OKUNUYOR', size: 20 }, { t: file, size: 20, op: .75 }]);
+    el('rect', { x: 706, y: 410, width: 228, height: 16, fill: 'none', stroke: AMBER, 'stroke-width': 2 }, scr);
+    var bar = el('rect', { x: 709, y: 413, width: 0, height: 10, fill: AMBER }, scr);
+    var pct = el('text', { x: 706, y: 452, 'font-size': 20 }, scr);
+    return tween(950, function (p) { bar.setAttribute('width', 222 * p); pct.textContent = Math.round(p * 100) + '%'; }, ease.lin);
+  }
+  function screenShow(it) {
+    var size = Math.min(34, 228 / (it.screenTitle.length * .52));
+    var lines = [{ t: it.screenTitle, size: size, lh: 38 }, { t: (it.screenCat || it.cat).toLocaleUpperCase('tr'), size: 15, op: .7, lh: 27 }];
+    it.screen.forEach(function (t) { lines.push({ t: t, size: 20, lh: 23 }); });
+    lines.push({ t: '>> ayrıntılar aşağıda', size: 15, op: .6, gap: 6 });
+    setScreen(lines);
+    blip();
+  }
+
+  /* ---------- Alt panel ---------- */
+  var HINT = '<div class="hintbox"><p><b>Kasadan bir disket seç</b> ve bilgisayara tak. Sertifikaya, nota ve çaya da dokunabilirsin.</p><p class="keys"><kbd>←</kbd><kbd>→</kbd> seç &nbsp;<kbd>Enter</kbd> tak &nbsp;<kbd>Esc</kbd> çıkar</p></div>';
+  var typeTok = 0, typing = null;
+  function showHint() { typeTok++; typing = null; panel.innerHTML = HINT; }
+  function typeText(node, text) {
+    var tok = ++typeTok;
+    if (reduce) { node.textContent = text; return; }
+    var i = 0;
+    node.textContent = '';
+    typing = function () { typeTok++; node.textContent = text; typing = null; };
+    (function step() {
+      if (tok !== typeTok) return;
+      i++;
+      node.textContent = text.slice(0, i);
+      if (i % 3 === 0) S.type();
+      if (i < text.length) setTimeout(step, /[.,;:]/.test(text[i - 1]) ? 90 : 15);
+      else typing = null;
+    })();
+  }
+  function showDialog(it, isDisk) {
+    var links = it.links || (it.url ? [{ t: 'Repoyu aç', u: it.url }] : []);
+    var acts = links.map(function (l, k) {
+      var ext = l.u.indexOf('mailto:') === 0 ? '' : ' target="_blank" rel="noopener"';
+      return '<a class="btn' + (k ? ' ghost' : '') + '" href="' + l.u + '"' + ext + '>' + l.t + '</a>';
+    }).join('');
+    if (it.private) acts += '<span class="locked">Bu repo şimdilik özel.</span>';
+    if (isDisk) acts += '<button class="btn ghost next" type="button">Sonraki disket</button>';
+    panel.innerHTML =
+      '<div class="dlg" role="region" aria-label="' + it.title + '">' +
+        '<div class="dlg-top"><span class="tag"><i style="background:' + it.body + '"></i>A:\\' + it.file + '</span>' +
+        '<button class="x" type="button">' + (isDisk ? 'Disketi çıkar' : 'Kapat') + ' <kbd>Esc</kbd></button></div>' +
+        '<h2>' + it.title + '</h2><p class="cat">' + it.cat + '</p>' +
+        '<p class="desc" aria-hidden="true"></p>' +
+        '<div class="foot">' +
+        (it.stack.length ? '<ul class="chips" aria-label="Kullanılan teknolojiler">' + it.stack.map(function (s) { return '<li>' + s + '</li>'; }).join('') + '</ul>' : '<span></span>') +
+        '<div class="acts">' + acts + '</div></div>' +
+      '</div>';
+    live.textContent = it.title + '. ' + it.desc;
+    var desc = panel.querySelector('.desc');
+    desc.addEventListener('click', function () { if (typing) typing(); });
+    panel.querySelector('.x').addEventListener('click', closeAll);
+    var nx = panel.querySelector('.next');
+    if (nx) nx.addEventListener('click', function () { insert(current === null ? 0 : (current + 1) % D.length); });
+    typeText(desc, it.desc);
+  }
+
+  /* ---------- Akış ---------- */
+  var busy = true, entered = false, current = null, infoKey = null;
+  var led = $('driveLed');
+  function setLed(on) { led.setAttribute('fill', on ? AMBER : '#5a4a2a'); }
+  function backToCrate(d) {
+    var next = null;
+    for (var k = d.i + 1; k < D.length; k++) if (D[k].g.parentNode === crate) { next = D[k].g; break; }
+    crate.insertBefore(d.g, next);
+  }
+  async function insert(i) {
+    if (busy || !entered || current === i) return;
+    busy = true;
+    if (current !== null) await eject();
+    infoKey = null;
+    var d = D[i], g = d.g;
+    showHint(); stopCursor();
+    g.classList.add('flying');
+    fly.appendChild(g);
+    S.whoosh();
+    var from = { x: d.home.x, y: d.home.y - 26, r: d.home.r, sx: 1, sy: 1 };
+    await tween(620, function (p) { place(g, arc(from, ABOVE, p, -110)); });
+    await tween(210, function (p) { place(g, mix(ABOVE, IN, p)); }, ease.in);
+    g.style.opacity = 0;
+    S.clack(); setLed(true); S.seek(1);
+    current = i;
+    await screenLoad(d.p.file);
+    screenShow(d.p); S.chime();
+    showDialog(d.p, true);
+    busy = false;
+  }
+  async function eject() {
+    if (current === null) return;
+    var d = D[current], g = d.g;
+    S.eject(); setLed(false); showHint();
+    g.style.opacity = 1;
+    await tween(200, function (p) { place(g, mix(IN, ABOVE, p)); }, ease.out);
+    S.whoosh();
+    await tween(560, function (p) { place(g, arc(ABOVE, d.home, p, -90)); });
+    place(g, d.home);
+    g.classList.remove('flying');
+    backToCrate(d);
+    current = null;
+    screenIdle();
+  }
+  async function showInfo(key) {
+    if (busy || !entered) return;
+    busy = true;
+    if (current !== null) await eject();
+    infoKey = key;
+    var it = INFO[key];
+    showHint();
+    S.seek(.35);
+    setScreen([{ t: 'A:\\> ' + it.file, size: 20 }, { t: 'okunuyor...', size: 20, op: .7 }]);
+    await wait(420);
+    screenShow(it); S.chime();
+    showDialog(it, false);
+    busy = false;
+  }
+  async function closeAll() {
+    if (busy) return;
+    if (current !== null) {
+      busy = true;
+      var idx = current;
+      await eject();
+      busy = false;
+      D[idx].g.focus({ preventScroll: true });
+    } else if (infoKey) {
+      infoKey = null; showHint(); screenIdle(); S.click();
+    }
+  }
+
+  /* Diğer tıklanabilirler */
+  function activate(node, fn) {
+    node.addEventListener('click', fn);
+    node.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); fn(); } });
+  }
+  activate($('cert'), function () { S.paper(); showInfo('about'); });
+  activate($('note'), function () { S.paper(); showInfo('contact'); });
+  activate($('drive'), function () { if (current !== null) closeAll(); });
+  var toastT;
+  function toast(msg) {
+    var t = $('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(toastT); toastT = setTimeout(function () { t.classList.remove('show'); }, 2600);
+  }
+  activate($('tea'), function () {
+    S.clink();
+    var st = document.querySelector('#tea .steam');
+    st.classList.remove('puff'); void st.getBoundingClientRect(); st.classList.add('puff');
+    setTimeout(function () { st.classList.remove('puff'); }, 1300);
+    toast("Rize çayı, tavşan kanı. Afiyet olsun.");
+  });
+  var lampOn = true;
+  activate($('lamp'), function () {
+    lampOn = !lampOn;
+    S.click();
+    $('dark').setAttribute('opacity', lampOn ? 0 : .55);
+    $('lampLight').setAttribute('opacity', lampOn ? 1 : 0);
+    $('bulb').setAttribute('fill', lampOn ? '#ffe2a6' : '#6b5a40');
+    $('lamp').setAttribute('aria-pressed', String(lampOn));
+  });
+
+  /* Klavye */
+  document.addEventListener('keydown', function (e) {
+    if (!entered) return;
+    if (!pop.hidden && pop.contains(document.activeElement) && e.key !== 'Escape') return;
+    if (e.key === 'Escape') { e.preventDefault(); if (!pop.hidden) { openPop(false); sndBtn.focus(); return; } closeAll(); return; }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      var list = D.filter(function (d) { return d.g.parentNode === crate; }).map(function (d) { return d.g; });
+      if (!list.length) return;
+      var idx = list.indexOf(document.activeElement);
+      var n = idx < 0 ? 0 : (idx + (e.key === 'ArrowRight' ? 1 : -1) + list.length) % list.length;
+      list[n].focus({ preventScroll: true });
+      S.tick();
+      e.preventDefault();
+      return;
+    }
+    if (e.key === 'Enter' && typing && !(document.activeElement && document.activeElement.closest && document.activeElement.closest('a,button,.disk,.clk'))) { typing(); }
+  });
+
+  /* Ses düğmesi */
+  function updateSnd() {
+    var any = soundOn || !!mus.key;
+    $('sndTxt').innerHTML = mus.key ? 'Ses <span class="now">♪ ' + TRACKS[mus.key].name.split(',')[0] + '</span>' : (any ? 'Ses açık' : 'Ses kapalı');
+    $('sndWave').style.display = any ? '' : 'none';
+    $('sfxChk').checked = soundOn;
+  }
+  var pop = $('sndPop'), sndBtn = $('snd');
+  function openPop(open) { pop.hidden = !open; sndBtn.setAttribute('aria-expanded', String(open)); }
+  sndBtn.addEventListener('click', function (e) { e.stopPropagation(); openPop(pop.hidden); });
+  document.addEventListener('click', function (e) { if (!pop.hidden && !pop.contains(e.target) && e.target !== sndBtn) openPop(false); });
+  $('sfxChk').addEventListener('change', function () {
+    soundOn = this.checked;
+    if (soundOn) initAudio();
+    if (master) master.gain.setTargetAtTime(soundOn ? .9 : 0, T(), .05);
+    updateSnd();
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('input[name="mus"]'), function (r) {
+    r.addEventListener('change', function () { if (this.checked) setMusic(this.value); });
+  });
+  $('musVol').addEventListener('input', function () {
+    musicVol = this.value / 100;
+    if (musicBus) musicBus.gain.setTargetAtTime(musicVol, T(), .05);
+  });
+  var ORDER = ['', 'bach', 'satie', 'elise'];
+
+  /* Gök gürültüsü */
+  async function thunder() {
+    if (!reduce) {
+      var f = $('flash');
+      f.setAttribute('opacity', .85);
+      await tween(110, function (p) { f.setAttribute('opacity', .85 * (1 - p)); }, ease.out);
+      await wait(90);
+      f.setAttribute('opacity', .55);
+      await tween(320, function (p) { f.setAttribute('opacity', .55 * (1 - p)); }, ease.out);
+    }
+    setTimeout(S.thunder, 650);
+    setTimeout(thunder, 35000 + Math.random() * 35000);
+  }
+
+  /* Giriş ve açılış */
+  activate($('radio'), function () {
+    S.click();
+    setMusic(ORDER[(ORDER.indexOf(mus.key) + 1) % ORDER.length], toast);
+  });
+  async function enter(withSound) {
+    soundOn = withSound;
+    if (withSound) initAudio();
+    setMusic(withSound ? 'bach' : '');
+    updateSnd();
+    $('intro').classList.add('gone');
+    entered = true;
+    await wait(500);
+    S.crtOn();
+    $('crtGlow').setAttribute('opacity', 1);
+    scrContent.classList.add('on', 'boot');
+    await screenIdle(true);
+    showHint();
+    busy = false;
+    setTimeout(thunder, 9000);
+  }
+  $('enterSound').addEventListener('click', function () { enter(true); });
+  $('enterQuiet').addEventListener('click', function () { enter(false); });
+
+  /* Ekrana sığdırma */
+  function fit() {
+    var W = window.innerWidth, H = window.innerHeight, a = W / H;
+    var stage = $('stage');
+    if (a < .9) {
+      document.body.className = 'tall';
+      svg.setAttribute('viewBox', '180 150 880 560');
+      stage.style.height = Math.round(W * 560 / 880) + 'px';
+      return;
+    }
+    document.body.className = 'wide';
+    stage.style.height = '';
+    var vx, vy, vw, vh;
+    if (a >= 1600 / 900) { vw = 1600; vh = 1600 / a; vx = 0; vy = 900 - vh; }
+    else {
+      vh = 900; vw = 900 * a; vx = (1600 - vw) / 2; vy = 0;
+      if (vw < 1240) { vw = 1240; vh = 1240 / a; vx = 180; vy = 900 - vh; }
+    }
+    svg.setAttribute('viewBox', [vx, vy, vw, vh].map(function (n) { return n.toFixed(1); }).join(' '));
+  }
+  window.addEventListener('resize', fit);
+  fit();
+
+  if (reduce) { var ra = $('rainAnim'); if (ra) ra.parentNode.removeChild(ra); }
+  $('enterSound').focus();
 })();
 </script>
 </body>
